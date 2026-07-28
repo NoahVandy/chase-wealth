@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Design concept: Neo-Modernist — crossover of Neo-Geo (geometric instrumentation, one signal color) and Modernist (typographic architecture, structural rules) -->
+<title>Fee-Only Fiduciary Wealth Management | Chase Wealth Management</title>
+<meta name="description" content="Chase Wealth Management is a fee-only fiduciary wealth management firm. Written financial plans, disciplined portfolios, and ongoing counsel for one flat fee. Book a free call.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #FFFFFF;
+  --paper: #F7F7F5;
+  --black: #0A0A0C;
+  --gray: #6B6B70;
+  --gray-light: #A8A8AD;
+  --hairline: #E2E2DF;
+  --signal: #F4B32A; /* the one color */
+  --display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --sans: 'Manrope', 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--sans);
+  font-size: 16.5px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { font-family: var(--display); margin: 0; line-height: 1.05; letter-spacing: -0.03em; font-weight: 700; }
+a { color: inherit; text-decoration: none; }
+p { margin: 0; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+
+/* Numbered index with geometric marker — Modernist wayfinding, Neo-Geo punctuation */
+.index {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--display);
+  font-size: 12.5px; font-weight: 600;
+  letter-spacing: 0.18em;
+  font-variant-numeric: tabular-nums;
+}
+.index::before { content: ""; width: 11px; height: 11px; background: var(--signal); border-radius: 50%; flex: none; }
+
+/* ---------- Nav ---------- */
+header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--white);
+  border-bottom: 2px solid var(--black);
+}
+.nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+.logo-svg { height: 42px; width: auto; color: var(--black); display: block; }
+.nav-links { display: flex; gap: 34px; font-family: var(--display); font-size: 13.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+.nav-links a { position: relative; padding-bottom: 4px; }
+.nav-links a::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 0; height: 2px; background: var(--signal);
+  transition: width 0.18s ease;
+}
+.nav-links a:hover::after { width: 100%; }
+@media (max-width: 840px) { .nav-links { display: none; } }
+
+/* ---------- Buttons: Modernist rectangles, Neo-Geo motion ---------- */
+.btn {
+  display: inline-block;
+  font-family: var(--display);
+  font-size: 14px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 15px 30px;
+  border: 2px solid var(--black);
+  background: var(--black); color: var(--white);
+  cursor: pointer;
+  transition: background 0.18s cubic-bezier(.2,.8,.2,1), color 0.18s cubic-bezier(.2,.8,.2,1), transform 0.18s cubic-bezier(.2,.8,.2,1), box-shadow 0.18s cubic-bezier(.2,.8,.2,1);
+}
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--gray-light); }
+.btn.ghost { background: var(--white); color: var(--black); }
+.btn.ghost:hover { box-shadow: 4px 4px 0 var(--black); }
+/* The single primary CTA — the only colored object on the page */
+.btn.primary { background: var(--signal); color: var(--black); border-color: var(--black); }
+.btn.primary:hover { background: var(--black); color: var(--white); transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--signal); }
+
+/* ---------- Hero ---------- */
+.hero { border-bottom: 2px solid var(--black); position: relative; overflow: hidden; }
+.hero .wrap { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 0; align-items: stretch; }
+@media (max-width: 900px) { .hero .wrap { grid-template-columns: 1fr; } }
+.hero-copy { padding: 88px 48px 80px 0; }
+@media (max-width: 900px) { .hero-copy { padding: 64px 0 48px; } }
+.hero h1 {
+  font-size: clamp(44px, 7.6vw, 92px);
+  font-weight: 700;
+  max-width: 10em;
+  margin-top: 26px;
+}
+.hero h1 .hl { background: var(--signal); padding: 0 16px; display: inline-block; }
+.hero p.lede { font-size: 18.5px; line-height: 1.6; color: var(--gray); max-width: 28em; margin: 30px 0 38px; }
+.cta-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.hero-art {
+  border-left: 2px solid var(--black);
+  display: grid; place-items: center;
+  padding: 48px 0 48px 48px;
+  background-image:
+    linear-gradient(var(--hairline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+@media (max-width: 900px) {
+  .hero-art { border-left: none; border-top: 2px solid var(--black); padding: 40px 0; }
+}
+.hero-art svg { display: block; width: 100%; max-width: 340px; height: auto; }
+.rot-slow { transform-origin: center; animation: spin 70s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- Ticker ---------- */
+.strip {
+  border-bottom: 2px solid var(--black);
+  background: var(--black); color: var(--white);
+  overflow: hidden; padding: 13px 0;
+  font-family: var(--display);
+  font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.strip .inner { display: inline-block; animation: marquee 30s linear infinite; }
+.strip span { margin: 0 26px; }
+.strip .dot { color: var(--signal); }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ---------- Stats ---------- */
+.stats { border-bottom: 2px solid var(--black); }
+.stats .row { display: grid; grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 720px) { .stats .row { grid-template-columns: 1fr; } }
+.stat { padding: 38px 32px; border-right: 2px solid var(--black); }
+.stat:last-child { border-right: none; }
+@media (max-width: 720px) { .stat { border-right: none; border-bottom: 2px solid var(--black); } .stat:last-child { border-bottom: none; } }
+.stat .n { font-family: var(--display); font-size: clamp(36px, 4.4vw, 54px); font-weight: 700; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat .n em { font-style: normal; color: var(--gray-light); }
+.stat .l { font-size: 13px; font-weight: 700; color: var(--gray); margin-top: 12px; }
+
+/* ---------- Section scaffold ---------- */
+section.block { padding: 88px 0; border-bottom: 2px solid var(--black); }
+.block-head { display: grid; grid-template-columns: 220px 1fr; gap: 48px; margin-bottom: 56px; }
+@media (max-width: 720px) { .block-head { grid-template-columns: 1fr; gap: 22px; } }
+.block-head h2 { font-size: clamp(30px, 4.4vw, 52px); max-width: 14em; }
+.block-head .sub { margin-top: 16px; color: var(--gray); max-width: 34em; }
+
+/* ---------- Services: Modernist list rows + Neo-Geo glyphs ---------- */
+.svc-list { border-top: 2px solid var(--black); }
+.svc-row {
+  display: grid; grid-template-columns: 72px 1fr 1.2fr; gap: 32px;
+  padding: 34px 0;
+  border-bottom: 1px solid var(--hairline);
+  align-items: center;
+  transition: background 0.15s ease, transform 0.15s cubic-bezier(.2,.8,.2,1);
+}
+@media (max-width: 720px) { .svc-row { grid-template-columns: 72px 1fr; } .svc-row p { grid-column: 2; } }
+.svc-row:hover { background: var(--paper); }
+.svc-row:hover .glyph .swap { fill: var(--signal); }
+.svc-row .glyph { display: block; }
+.svc-row h3 { font-size: clamp(21px, 2.6vw, 28px); letter-spacing: -0.02em; }
+.svc-row p { color: var(--gray); font-size: 15.5px; }
+
+/* ---------- Method: inverted block, geometric numerals ---------- */
+.method { background: var(--black); color: var(--white); }
+.method h2, .method h3 { color: var(--white); }
+.method .block-head .sub { color: var(--gray-light); }
+.m-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--white); border: 2px solid var(--white); }
+@media (max-width: 860px) { .m-grid { grid-template-columns: 1fr; } }
+.m-cell { background: var(--black); padding: 40px 34px 44px; position: relative; }
+.m-cell .shape { position: absolute; top: 34px; right: 30px; }
+.m-cell .no { font-family: var(--display); font-size: 54px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+.m-cell h3 { font-size: 21px; margin: 22px 0 10px; }
+.m-cell p { color: var(--gray-light); font-size: 15px; }
+/* Method — zig-zag rows (alternating copy / geometric plate) */
+.zz { display: flex; flex-direction: column; }
+.zz-row { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 56px; padding: 46px 0; border-top: 2px solid #2A2A30; }
+.zz-row:first-child { border-top: none; padding-top: 6px; }
+.zz-copy { order: 1; }
+.zz-art { order: 2; display: flex; justify-content: center; }
+.zz-art svg { width: 100%; max-width: 230px; height: auto; }
+.zz-row:nth-child(even) .zz-copy { order: 2; }
+.zz-row:nth-child(even) .zz-art { order: 1; }
+.zz-copy .no { font-family: var(--display); font-size: 54px; font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: var(--signal); }
+.zz-copy h3 { font-size: 24px; margin: 14px 0 12px; }
+.zz-copy p { color: var(--gray-light); font-size: 16px; max-width: 30em; }
+@media (max-width: 860px) {
+  .zz-row, .zz-row:nth-child(even) { grid-template-columns: 1fr; gap: 22px; padding: 36px 0; }
+  .zz-copy, .zz-row:nth-child(even) .zz-copy { order: 1; }
+  .zz-art, .zz-row:nth-child(even) .zz-art { order: 2; justify-content: flex-start; }
+  .zz-art svg { max-width: 150px; }
+}
+.method .fee {
+  margin-top: 56px; padding-top: 32px;
+  border-top: 1px solid #3A3A40;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 24px; flex-wrap: wrap;
+}
+.method .fee .f { font-family: var(--display); font-size: clamp(20px, 2.6vw, 28px); font-weight: 700; letter-spacing: -0.02em; }
+.method .fee .f em { font-style: normal; color: var(--signal); }
+.method .fee .note { font-size: 13.5px; color: var(--gray-light); font-weight: 600; }
+
+/* ---------- Testimonial ---------- */
+.testimonial { position: relative; }
+.testimonial blockquote {
+  font-family: var(--display);
+  font-size: clamp(26px, 4vw, 44px);
+  font-weight: 700; letter-spacing: -0.03em; line-height: 1.25;
+  max-width: 22em; margin: 40px 0 28px;
+}
+.testimonial blockquote .lt { color: var(--gray-light); }
+.testimonial cite { font-style: normal; font-family: var(--display); font-size: 13px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray); }
+.testimonial .marks { display: flex; gap: 10px; margin-top: 36px; }
+.testimonial .marks i { width: 14px; height: 14px; display: block; }
+.testimonial .marks i:nth-child(1) { background: var(--black); border-radius: 50%; }
+.testimonial .marks i:nth-child(2) { background: var(--signal); }
+.testimonial .marks i:nth-child(3) { background: var(--black); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+
+/* ---------- Contact ---------- */
+.contact { padding: 88px 0 96px; }
+.c-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; }
+@media (max-width: 860px) { .c-grid { grid-template-columns: 1fr; gap: 48px; } }
+.c-copy h2 { font-size: clamp(34px, 5vw, 58px); margin: 26px 0 20px; max-width: 10em; }
+.c-copy h2 .hl { background: var(--signal); padding: 0 10px; }
+.c-copy p { color: var(--gray); max-width: 27em; }
+.c-copy .avail { display: inline-flex; align-items: center; gap: 10px; margin-top: 26px; font-family: var(--display); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+.c-copy .avail::before { content: ""; width: 11px; height: 11px; background: var(--signal); border-radius: 50%; }
+.c-form { display: flex; flex-direction: column; gap: 26px; }
+.c-form .field { border-bottom: 2px solid var(--black); padding-bottom: 10px; transition: box-shadow 0.15s ease; }
+.c-form .field:focus-within { box-shadow: 0 4px 0 -2px var(--signal); }
+.c-form label {
+  display: block; font-family: var(--display);
+  font-size: 11.5px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gray); margin-bottom: 8px;
+}
+.c-form input, .c-form select, .c-form textarea {
+  width: 100%; font-family: var(--sans); font-size: 17px; font-weight: 600; color: var(--black);
+  background: transparent; border: none; padding: 4px 0;
+}
+.c-form textarea { resize: vertical; min-height: 60px; }
+.c-form input:focus, .c-form select:focus, .c-form textarea:focus { outline: none; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+@media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
+.c-form .btn { align-self: flex-start; margin-top: 10px; font-size: 15px; padding: 17px 40px; }
+
+/* ---------- Footer ---------- */
+footer { background: var(--black); color: var(--gray-light); padding: 64px 0 40px; font-size: 14px; }
+.foot-grid { display: flex; justify-content: space-between; align-items: center; gap: 40px; flex-wrap: wrap; }
+footer .logo-svg { color: var(--white); height: 40px; margin-bottom: 12px; }
+footer .tagline { color: var(--signal); font-family: var(--display); font-weight: 600; }
+.foot-links { display: flex; gap: 26px; font-family: var(--display); font-size: 12.5px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+.foot-links a:hover { color: var(--white); }
+footer .legal { margin-top: 40px; padding-top: 26px; border-top: 1px solid #2A2A30; font-size: 12.5px; line-height: 1.8; }
+
+/* Reveal */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.55s cubic-bezier(.2,.8,.2,1), transform 0.55s cubic-bezier(.2,.8,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+
+/* Mobile-first guards */
+@media (max-width: 520px) {
+  .wrap { padding: 0 20px; }
+  .logo-svg { height: 32px; }
+  .nav .btn { padding: 11px 16px; font-size: 12px; }
+  .stat { padding: 26px 20px; }
+  section.block { padding: 60px 0; }
+  .contact { padding: 60px 0 72px; }
+}
+
+/* ============================================================
+   SEO MAP OVERLAY — dev/review tool. Remove this whole block
+   (plus the [data-seo] attrs, .seo-legend markup, and the
+   toggle <script>) for the production build.
+   ============================================================ */
+.seo-toggle {
+  position: fixed; top: 16px; right: 16px; z-index: 10000;
+  font-family: var(--display); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 16px; border: 2px solid var(--black);
+  background: var(--white); color: var(--black); cursor: pointer;
+  box-shadow: 3px 3px 0 var(--black);
+}
+.seo-toggle:hover { background: var(--black); color: var(--white); }
+
+body.seo-map-on [data-seo] {
+  position: relative;
+  outline: 2px dashed var(--seo-c, #16A34A);
+  outline-offset: 5px;
+}
+body.seo-map-on [data-seo]::before {
+  content: attr(data-seo);
+  position: absolute; top: 0; left: 0; transform: translateY(-100%);
+  background: var(--seo-c, #16A34A); color: #fff;
+  font-family: var(--display); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.03em; padding: 3px 8px; white-space: nowrap;
+  z-index: 9999; pointer-events: none;
+  max-width: 92vw; overflow: hidden; text-overflow: ellipsis;
+}
+body.seo-map-on [data-seo-status="present"] { --seo-c: #16A34A; }
+body.seo-map-on [data-seo-status="partial"] { --seo-c: #EA580C; }
+
+.seo-legend { display: none; }
+body.seo-map-on .seo-legend {
+  display: block; position: fixed; left: 16px; bottom: 16px; z-index: 10000;
+  width: 300px; max-width: calc(100vw - 32px);
+  background: var(--white); color: var(--black);
+  border: 2px solid var(--black); box-shadow: 4px 4px 0 var(--black);
+  padding: 16px 18px; font-size: 12.5px; line-height: 1.5;
+  max-height: 70vh; overflow: auto;
+}
+.seo-legend h4 { font-family: var(--display); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 8px; }
+.seo-legend .key { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.seo-legend .sw { width: 12px; height: 12px; flex: none; border-radius: 2px; }
+.seo-legend .sw.p { background: #16A34A; } .seo-legend .sw.pa { background: #EA580C; } .seo-legend .sw.m { background: #DC2626; }
+.seo-legend .gaps { margin: 10px 0 0; padding: 10px 0 0; border-top: 1px solid var(--hairline); }
+.seo-legend ul { margin: 6px 0 0; padding-left: 18px; }
+.seo-legend li { margin-bottom: 3px; }
+@media (max-width: 560px) { .seo-legend { display: none !important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" aria-label="Chase Wealth Management home">
+      <svg class="logo-svg" viewBox="0 0 300 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chase Wealth Management">
+        <g fill="currentColor">
+          <path d="M61.8,20.6 A32,32 0 1 0 61.8,63.4 L50.6,53.4 A17,17 0 1 1 50.6,30.6 Z"/>
+          <path d="M55,34 A8,8 0 0 1 55,50 A11,11 0 0 0 55,34 Z"/>
+        </g>
+        <text x="92" y="45" fill="currentColor" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-weight="800" font-size="34" letter-spacing="0.5">CHASE</text>
+        <text x="93" y="65" fill="currentColor" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-weight="600" font-size="11" letter-spacing="3.2">WEALTH MANAGEMENT</text>
+      </svg>
+    </a>
+    <nav class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#method">Method</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn primary" href="#contact">Book a free call</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="index reveal">01 — THE PREMISE</span>
+        <h1 class="reveal" data-seo="H1 · relevance signal" data-seo-status="partial">Good advice is a <span class="hl">structure.</span></h1>
+        <p class="lede reveal" data-seo="Value prop · 'fee-only fiduciary' keywords" data-seo-status="present">Chase Wealth Management is a fee-only fiduciary practice.
+        We build written plans and rule-based portfolios for families who want their money
+        managed the way good things are engineered: plainly, precisely, and to last.</p>
+        <div class="cta-row reveal">
+          <a class="btn primary" href="#contact">Book a free call</a>
+          <a class="btn ghost" href="#services">See the work</a>
+        </div>
+      </div>
+      <div class="hero-art reveal" aria-hidden="true">
+        <svg viewBox="0 0 340 340">
+          <rect x="2" y="2" width="336" height="336" fill="none" stroke="#0A0A0C" stroke-width="3"/>
+          <g class="rot-slow">
+            <circle cx="170" cy="170" r="118" fill="none" stroke="#0A0A0C" stroke-width="3"/>
+            <circle cx="170" cy="52" r="11" fill="#F4B32A"/>
+          </g>
+          <circle cx="170" cy="170" r="76" fill="#FFFFFF" stroke="#0A0A0C" stroke-width="3"/>
+          <path d="M170 94 A76 76 0 0 1 246 170 L170 170 Z" fill="#F4B32A"/>
+          <path d="M94 170 A76 76 0 0 0 170 246 L170 170 Z" fill="#0A0A0C"/>
+          <circle cx="170" cy="170" r="7" fill="#0A0A0C"/>
+          <g stroke="#0A0A0C" stroke-width="2">
+            <line x1="170" y1="2" x2="170" y2="42"/>
+            <line x1="170" y1="298" x2="170" y2="338"/>
+            <line x1="2" y1="170" x2="42" y2="170"/>
+            <line x1="298" y1="170" x2="338" y2="170"/>
+          </g>
+          <rect x="22" y="292" width="26" height="26" fill="#0A0A0C"/>
+          <rect x="292" y="22" width="26" height="26" fill="none" stroke="#0A0A0C" stroke-width="3"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ticker -->
+  <div class="strip" aria-hidden="true">
+    <div class="inner">
+      <span>Fee-only fiduciary <span class="dot">●</span></span>
+      <span>Rules-based rebalancing <span class="dot">●</span></span>
+      <span>Written plans, verified annually <span class="dot">●</span></span>
+      <span>No commissions, ever <span class="dot">●</span></span>
+      <span>Fee-only fiduciary <span class="dot">●</span></span>
+      <span>Rules-based rebalancing <span class="dot">●</span></span>
+      <span>Written plans, verified annually <span class="dot">●</span></span>
+      <span>No commissions, ever <span class="dot">●</span></span>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <section class="stats" data-seo="Specific, verifiable numbers (§3.2)" data-seo-status="present">
+    <div class="wrap row">
+      <div class="stat reveal"><div class="n">$480<em>M</em></div><div class="l">Assets under advisement</div></div>
+      <div class="stat reveal"><div class="n">26<em>yrs</em></div><div class="l">Combined advisor tenure</div></div>
+      <div class="stat reveal"><div class="n">100<em>%</em></div><div class="l">Fee-only. Fiduciary. Always.</div></div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="block" id="services" data-seo="Service keywords · H2/H3 + schema slot" data-seo-status="partial">
+    <div class="wrap">
+      <div class="block-head">
+        <span class="index reveal">02 — SERVICES</span>
+        <div>
+          <h2 class="reveal">Three functions. No ornament.</h2>
+          <p class="sub reveal">Everything we offer serves the same structure: your plan.
+          Nothing is sold, nothing is bundled, nothing is decorative.</p>
+        </div>
+      </div>
+      <div class="svc-list">
+        <div class="svc-row reveal">
+          <svg class="glyph" width="56" height="56" viewBox="0 0 56 56" aria-hidden="true">
+            <rect x="3" y="3" width="50" height="50" fill="none" stroke="#0A0A0C" stroke-width="2.5"/>
+            <circle class="swap" cx="28" cy="28" r="14" fill="#0A0A0C"/>
+          </svg>
+          <h3>Investment management</h3>
+          <p>Globally diversified, low-cost portfolios rebalanced by written rule — not by
+          headline, hunch, or quarter-end nerves.</p>
+        </div>
+        <div class="svc-row reveal">
+          <svg class="glyph" width="56" height="56" viewBox="0 0 56 56" aria-hidden="true">
+            <rect x="3" y="3" width="50" height="50" fill="none" stroke="#0A0A0C" stroke-width="2.5"/>
+            <rect class="swap" x="16" y="16" width="24" height="24" fill="#0A0A0C"/>
+          </svg>
+          <h3>Financial planning</h3>
+          <p>Retirement income, taxes, insurance, and estate in one legible document —
+          reviewed annually, revised when your life revises the inputs.</p>
+        </div>
+        <div class="svc-row reveal">
+          <svg class="glyph" width="56" height="56" viewBox="0 0 56 56" aria-hidden="true">
+            <rect x="3" y="3" width="50" height="50" fill="none" stroke="#0A0A0C" stroke-width="2.5"/>
+            <path class="swap" d="M28 13 L45 43 L11 43 Z" fill="#0A0A0C"/>
+          </svg>
+          <h3>Ongoing counsel</h3>
+          <p>One advisor who knows the whole structure, available for the decisions that
+          matter and the small ones that quietly compound.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Method -->
+  <section class="block method" id="method" data-seo="Process · E-E-A-T expertise (§1)" data-seo-status="present">
+    <div class="wrap">
+      <div class="block-head">
+        <span class="index reveal">03 — METHOD</span>
+        <div>
+          <h2 class="reveal">Form follows function. So do we.</h2>
+          <p class="sub reveal">Three steps, each with a defined output. You always know
+          what happens next and what it costs.</p>
+        </div>
+      </div>
+      <div class="zz">
+        <div class="zz-row reveal">
+          <div class="zz-copy">
+            <div class="no">1</div>
+            <h3>Assess</h3>
+            <p>A free call and a complete inventory: what you hold, what you owe, what you
+            intend. Output: a clear statement of where you stand.</p>
+          </div>
+          <div class="zz-art" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <rect x="2" y="2" width="196" height="196" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+              <circle cx="100" cy="100" r="60" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+              <circle cx="100" cy="40" r="9" fill="#F4B32A"/>
+            </svg>
+          </div>
+        </div>
+        <div class="zz-row reveal">
+          <div class="zz-copy">
+            <div class="no">2</div>
+            <h3>Plan</h3>
+            <p>A written plan and model portfolio, walked through line by line until the
+            reasoning is yours. Output: a document you can hold us to.</p>
+          </div>
+          <div class="zz-art" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <rect x="2" y="2" width="196" height="196" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+              <rect x="55" y="55" width="90" height="90" fill="#F4B32A"/>
+              <rect x="55" y="55" width="90" height="90" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+            </svg>
+          </div>
+        </div>
+        <div class="zz-row reveal">
+          <div class="zz-copy">
+            <div class="no">3</div>
+            <h3>Maintain</h3>
+            <p>Rule-based rebalancing, quarterly reporting, annual reviews. Output: a structure
+            that keeps standing while life moves.</p>
+          </div>
+          <div class="zz-art" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <rect x="2" y="2" width="196" height="196" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+              <path d="M100 46 L156 150 L44 150 Z" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+              <circle cx="100" cy="150" r="8" fill="#F4B32A"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="fee reveal" data-seo="Fee transparency — add real $ (§3.2)" data-seo-status="partial">
+        <span class="f">∴ One flat fee. Stated in full. In writing. <em>Q.E.D.</em></span>
+        <span class="note">No commissions — no products sold — no asterisks</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonial -->
+  <section class="block testimonial" data-seo="Social proof · Review schema slot (§1)" data-seo-status="partial">
+    <div class="wrap">
+      <span class="index reveal">04 — IN PRACTICE</span>
+      <blockquote class="reveal">"They removed everything from my finances that didn't need
+      to be there. <span class="lt">What's left is simple, and it works."</span></blockquote>
+      <cite class="reveal">M. WHITFIELD — CLIENT SINCE 2016</cite>
+      <div class="marks reveal" aria-hidden="true"><i></i><i></i><i></i></div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contact" data-seo="Conversion · local/hiring intent (§2)" data-seo-status="present">
+    <div class="wrap c-grid">
+      <div class="c-copy">
+        <span class="index reveal">05 — CONTACT</span>
+        <h2 class="reveal">Begin with one <span class="hl">honest hour.</span></h2>
+        <p class="reveal">A first conversation costs nothing and obliges nothing. Bring your
+        questions; we'll bring a clean sheet of paper and tell you plainly whether we can help.</p>
+        <span class="avail reveal">Taking new clients this quarter</span>
+      </div>
+      <form class="c-form reveal" onsubmit="event.preventDefault(); alert('Received. We will reply within one business day.');">
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="topic">Subject</label>
+          <select id="topic">
+            <option>Retirement planning</option>
+            <option>Investment review</option>
+            <option>Tax &amp; estate strategy</option>
+            <option>General inquiry</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="msg">Message (optional)</label>
+          <textarea id="msg" placeholder="A sentence or two about your situation."></textarea>
+        </div>
+        <button class="btn primary" type="submit">Book my free call</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <svg class="logo-svg" viewBox="0 0 300 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chase Wealth Management">
+          <g fill="currentColor">
+            <path d="M61.8,20.6 A32,32 0 1 0 61.8,63.4 L50.6,53.4 A17,17 0 1 1 50.6,30.6 Z"/>
+            <path d="M55,34 A8,8 0 0 1 55,50 A11,11 0 0 0 55,34 Z"/>
+          </g>
+          <text x="92" y="45" fill="currentColor" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-weight="800" font-size="34" letter-spacing="0.5">CHASE</text>
+          <text x="93" y="65" fill="currentColor" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-weight="600" font-size="11" letter-spacing="3.2">WEALTH MANAGEMENT</text>
+        </svg>
+        <p class="tagline">Advice on your side of the table.</p>
+      </div>
+      <nav class="foot-links">
+        <a href="#services">Services</a>
+        <a href="#method">Method</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="btn primary" href="#contact">Book a free call</a>
+    </div>
+    <p class="legal" data-seo="RIA disclosure — add NAP, Form ADV, Privacy/Terms (§1,§4)" data-seo-status="partial">Chase Wealth Management is a fee-only registered investment adviser.
+    This page is a design concept; nothing herein constitutes investment advice.
+    © 2026 Chase Wealth Management. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+<!-- SEO MAP OVERLAY — dev/review tool. Remove for production. -->
+<aside class="seo-legend" aria-hidden="true">
+  <h4>SEO Map — Key</h4>
+  <div class="key"><span class="sw p"></span> Present — signal delivered</div>
+  <div class="key"><span class="sw pa"></span> Partial — needs strengthening</div>
+  <div class="key"><span class="sw m"></span> Missing — not on the page yet</div>
+  <div class="gaps">
+    <strong>Missing sections to add:</strong>
+    <ul>
+      <li>JSON-LD schema in &lt;head&gt;</li>
+      <li>Advisor bio + credentials (CFP®/CFA)</li>
+      <li>FAQ (question + short answer)</li>
+      <li>NAP — address &amp; phone</li>
+      <li>Form ADV / Privacy / Terms links</li>
+      <li>Aggregate review rating</li>
+    </ul>
+  </div>
+</aside>
+<script>
+/* SEO MAP OVERLAY — dev/review tool. Remove for production. */
+(function () {
+  var btn = document.createElement('button');
+  btn.className = 'seo-toggle';
+  btn.type = 'button';
+  btn.textContent = 'Show SEO map';
+  btn.addEventListener('click', function () {
+    var on = document.body.classList.toggle('seo-map-on');
+    btn.textContent = on ? 'Hide SEO map' : 'Show SEO map';
+  });
+  document.body.appendChild(btn);
+})();
+</script>
+</body>
+</html>

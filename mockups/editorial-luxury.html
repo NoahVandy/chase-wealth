@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--
+  Design concept: Editorial Luxury — a high-end magazine feature about generational wealth.
+  GENERATED FROM mockups/brief.md (structured template) × mockups/prompts.md §8 (Editorial Luxury).
+  Fixed fields (project, audience, content/hierarchy, assets, constraints) are taken from
+  brief.md verbatim; the three per-concept fields are filled as follows:
+    TONE       — unhurried, formal, heirloom; permanence over promotion.
+    REFERENCES — private-bank centenary volumes, engraved stationery and share certificates,
+                 literary-magazine mastheads and folios, the hush of a members' reading room.
+    MOTION     — slow and gracious: reveals that rise like a settling page, underlines drawn at
+                 reading speed, black warming to gold like lamplight.
+    REVISED    — modern-luxury pass (2026-07-28): larger, more confident display typography;
+                 subtle warm gradients replacing flat grounds; frosted-glass panels used
+                 sparingly (nav, stats band, fee panel); gentle staggered scroll reveals;
+                 restrained corner rounding; more generous spacing; richer plate art (raster
+                 photography remains out of scope per brief ASSETS — inline SVG only);
+                 reduced iconography; focus-visible outlines + skip link for accessibility.
+  Each <section> below is annotated with the brief.md CONTENT & HIERARCHY item it implements.
+  Palette: black ink on warm cream; gold is the single accent, reserved for the finest gestures
+  (hairlines, folios, ornaments — text-gold only on black). Photography is translated to
+  engraved inline-SVG plates per the brief's no-raster constraint.
+-->
+<title>Fee-Only Fiduciary Wealth Management | Chase Wealth Management</title>
+<meta name="description" content="Chase Wealth Management is a fee-only fiduciary wealth management firm. Written financial plans, disciplined portfolios, and ongoing counsel for one flat fee. Book a free call.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #F7F2E8;
+  --ink: #191613;
+  --black: #141210;          /* full-bleed band ground */
+  --muted: #635C50;
+  --hairline: #DCD3C2;
+  --gold: #A8843C;           /* the single accent — rules & ornament on cream (never body text) */
+  --gold-bright: #C9A45C;    /* gold for text on black only */
+  --display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --serif: 'Lora', Georgia, 'Times New Roman', serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; color: var(--ink);
+  /* subtle warm gradient instead of a flat cream */
+  background: var(--cream) linear-gradient(180deg, #FAF6EE 0%, var(--cream) 38%, #F2EADA 100%);
+  font-family: var(--serif); font-size: 17.5px; line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 500; line-height: 1.12; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+.skip { position: absolute; left: -9999px; top: 0; z-index: 20000; background: var(--ink); color: var(--cream); padding: 10px 18px; font-size: 14px; border-radius: 4px; }
+.skip:focus { left: 16px; top: 16px; }
+.wrap { max-width: 1060px; margin: 0 auto; padding: 0 28px; }
+.smallcaps {
+  font-family: var(--serif); font-size: 12.5px; font-weight: 500;
+  letter-spacing: 0.28em; text-transform: uppercase;
+}
+.orn { color: var(--gold); font-style: normal; }
+
+/* ---------- Masthead + sticky nav (brief §1) ---------- */
+.masthead { text-align: center; padding: 34px 0 22px; border-bottom: 1px solid var(--ink); position: relative; }
+.masthead::after { content: ""; position: absolute; left: 0; right: 0; bottom: 3px; height: 1px; background: var(--ink); }
+.masthead .logo-svg { height: 52px; width: auto; color: var(--ink); display: inline-block; }
+.masthead .issue { margin-top: 10px; color: var(--muted); }
+header.navbar {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(249,244,235,0.72); backdrop-filter: saturate(140%) blur(14px); -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-bottom: 1px solid var(--hairline);
+}
+.nav { display: flex; align-items: center; justify-content: center; gap: 40px; padding: 14px 0; }
+.nav a.link { position: relative; padding-bottom: 3px; }
+.nav a.link::after { content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.45s ease; }
+.nav a.link:hover::after { width: 100%; }
+@media (max-width: 680px) { .nav { gap: 20px; flex-wrap: wrap; padding: 12px 16px; } }
+.btn {
+  display: inline-block; font-family: var(--serif);
+  font-size: 12.5px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase;
+  padding: 15px 30px; border: 1px solid var(--ink); border-radius: 4px;
+  background: var(--ink) linear-gradient(180deg, #26211B 0%, var(--ink) 100%);
+  color: var(--cream); cursor: pointer;
+  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+.btn:hover { background: transparent; color: var(--ink); }
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn.ghost:hover { background: var(--ink); color: var(--cream); }
+.nav .btn { padding: 10px 20px; }
+
+/* ---------- Hero (brief §2): the cover ---------- */
+.hero { padding: 120px 0 84px; text-align: center; }
+.hero .kicker { color: var(--muted); }
+.hero .kicker::before, .hero .kicker::after { content: "—"; color: var(--gold); margin: 0 14px; }
+.hero h1 { font-size: clamp(48px, 8.6vw, 116px); margin-top: 30px; letter-spacing: -0.02em; overflow-wrap: break-word; }
+.hero h1 em { font-style: italic; font-weight: 400; }
+.hero .lede { margin: 38px auto 0; max-width: 34em; font-size: 20px; color: var(--muted); }
+.cta-row { margin-top: 46px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+/* Engraved plate — inline SVG standing in for photography */
+.plate { max-width: 820px; margin: 88px auto 0; }
+.plate svg { display: block; width: 100%; height: auto; }
+.plate .caption { margin-top: 14px; text-align: center; font-size: 13.5px; font-style: italic; color: var(--muted); }
+.plate .caption b { font-style: normal; font-weight: 500; color: var(--gold); letter-spacing: 0.1em; }
+
+/* ---------- Trust strip (brief §3) ---------- */
+.trust { border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+.trust ul { list-style: none; margin: 0; padding: 20px 0; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 0; }
+.trust li { color: var(--muted); }
+.trust li + li::before { content: "◆"; font-size: 7px; color: var(--gold); vertical-align: middle; margin: 0 26px; }
+
+/* ---------- Stats (brief §4) ---------- */
+.stats { padding: 96px 0; }
+/* frosted panel — one of the page's few glass surfaces */
+.stats .row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; text-align: center;
+  background: rgba(253,250,243,0.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(25,22,19,0.08); border-radius: 18px; padding: 56px 44px;
+}
+@media (max-width: 720px) { .stats .row { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px; } }
+.stat::before { content: ""; display: block; width: 60px; height: 1px; margin: 0 auto 24px; background: linear-gradient(90deg, rgba(168,132,60,0), var(--gold), rgba(168,132,60,0)); }
+.stat .n { font-family: var(--display); font-size: clamp(46px, 5.8vw, 68px); font-weight: 500; line-height: 1; }
+.stat .l { margin-top: 12px; font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+
+/* ---------- Feature sections ---------- */
+section.feature { padding: 104px 0; border-top: 1px solid var(--hairline); }
+.feat-head { text-align: center; max-width: 36em; margin: 0 auto 72px; }
+.feat-head .smallcaps { color: var(--muted); }
+.feat-head h2 { font-size: clamp(38px, 5.2vw, 62px); margin-top: 22px; }
+.feat-head .sub { margin-top: 18px; color: var(--muted); }
+
+/* Services (brief §5): magazine columns */
+.columns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+@media (max-width: 800px) { .columns { grid-template-columns: 1fr; } }
+.colm { padding: 0 40px; border-left: 1px solid var(--hairline); }
+.colm:first-child { border-left: none; padding-left: 0; }
+.colm:last-child { padding-right: 0; }
+@media (max-width: 800px) { .colm { border-left: none; padding: 32px 0; border-top: 1px solid var(--hairline); } .colm:first-child { border-top: none; padding-top: 0; } }
+.colm .numeral { font-family: var(--display); font-size: 21px; font-style: italic; color: var(--gold); }
+.colm h3 { font-size: 26px; margin-top: 14px; }
+.colm p { margin-top: 14px; font-size: 16px; color: var(--muted); }
+
+/* Method (brief §6): the black spread */
+.spread { background: var(--black) radial-gradient(120% 85% at 50% 0%, #1D1915 0%, var(--black) 60%, #0E0C0A 100%); color: var(--cream); }
+.spread .feat-head .smallcaps, .spread .feat-head .sub { color: #B3AA9C; }
+.spread .m-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; }
+@media (max-width: 800px) { .spread .m-grid { grid-template-columns: 1fr; } }
+.m-cell .no { font-family: var(--display); font-style: italic; font-size: 48px; color: var(--gold-bright); line-height: 1; }
+.m-cell h3 { margin-top: 16px; font-size: 27px; color: var(--cream); }
+.m-cell .out { margin-top: 8px; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-bright); }
+.m-cell p { margin-top: 12px; font-size: 15.5px; color: #B3AA9C; }
+/* frosted dark-glass panel — used sparingly */
+.spread .fee {
+  margin-top: 76px; padding: 44px 40px; text-align: center;
+  background: rgba(247,242,232,0.05); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(201,164,92,0.22); border-radius: 16px;
+}
+.spread .fee p { font-family: var(--display); font-size: clamp(22px, 3vw, 32px); font-style: italic; color: var(--gold-bright); max-width: 26em; margin: 0 auto; line-height: 1.4; }
+.spread .fee .note { margin-top: 16px; font-family: var(--serif); font-style: normal; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #B3AA9C; }
+
+/* Proof (brief §7): the pull quote */
+.pull { text-align: center; max-width: 40em; margin: 0 auto; }
+.pull .mark { font-family: var(--display); font-size: 96px; line-height: 0.4; color: var(--gold); display: block; margin-bottom: 34px; }
+.pull p { font-family: var(--display); font-style: italic; font-size: clamp(30px, 4.4vw, 50px); line-height: 1.35; }
+.pull footer { margin-top: 30px; }
+.pull footer .smallcaps { color: var(--muted); }
+
+/* Contact (brief §8): the engraved invitation */
+.contact { padding: 112px 0 128px; }
+.invite {
+  max-width: 700px; margin: 0 auto; background: #FAF6EE;
+  border: 1px solid var(--ink); outline: 1px solid var(--ink); outline-offset: 4px;
+  border-radius: 18px; padding: 64px 56px; text-align: center;
+}
+@media (max-width: 640px) { .invite { padding: 44px 24px; } }
+.invite h2 { font-size: clamp(34px, 4.6vw, 48px); }
+.invite .sub { margin-top: 16px; color: var(--muted); max-width: 30em; margin-left: auto; margin-right: auto; }
+.invite form { margin-top: 44px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px 32px; text-align: left; }
+@media (max-width: 640px) { .invite form { grid-template-columns: 1fr; } }
+.field.full { grid-column: 1 / -1; }
+.field label { display: block; font-size: 11.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.field input, .field textarea {
+  width: 100%; font-family: var(--serif); font-size: 16.5px; color: var(--ink);
+  background: transparent; border: none; border-bottom: 1px solid var(--hairline);
+  padding: 4px 0 10px; outline: none; resize: vertical; transition: border-color 0.4s ease;
+}
+.field input:focus, .field textarea:focus { border-bottom-color: var(--gold); }
+.invite .btn { grid-column: 1 / -1; justify-self: center; margin-top: 10px; }
+
+/* Footer (brief §9): the colophon */
+footer.site { background: var(--black); color: #B3AA9C; padding: 64px 0 56px; text-align: center; }
+footer.site .logo-svg { height: 44px; color: var(--cream); display: inline-block; }
+footer.site .tagline { margin-top: 14px; font-family: var(--display); font-style: italic; font-size: 19px; color: var(--cream); }
+.foot-links { margin-top: 26px; display: flex; justify-content: center; gap: 34px; flex-wrap: wrap; }
+.foot-links a { color: var(--cream); position: relative; padding-bottom: 3px; }
+.foot-links a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px; background: var(--gold-bright); transition: width 0.45s ease; }
+.foot-links a:hover::after { width: 100%; }
+footer.site .btn { margin-top: 30px; background: transparent; border-color: var(--gold-bright); color: var(--gold-bright); }
+footer.site .btn:hover { background: var(--gold-bright); color: var(--black); }
+.legal { margin: 44px auto 0; padding-top: 26px; border-top: 1px solid #35302A; font-size: 13px; line-height: 1.8; max-width: 46em; }
+
+/* Motion: nothing on this page has ever hurried — gentle, staggered, settling */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1); }
+.reveal.in { opacity: 1; transform: none; }
+.plate.reveal { transform: translateY(22px) scale(0.985); }
+.plate.reveal.in { transform: none; }
+/* stagger containers animate their children in sequence instead of themselves */
+.reveal.stagger { opacity: 1; transform: none; }
+.stagger > * { opacity: 0; transform: translateY(20px); transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+.stagger.in > * { opacity: 1; transform: none; }
+.stagger.in > *:nth-child(2) { transition-delay: 0.14s; }
+.stagger.in > *:nth-child(3) { transition-delay: 0.28s; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .reveal, .stagger > * { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   SEO MAP OVERLAY — dev/review tool. Remove this whole block
+   (plus the [data-seo] attrs, .seo-legend markup, and the
+   toggle <script>) for the production build. Palette-independent.
+   ============================================================ */
+.seo-toggle {
+  position: fixed; top: 16px; right: 16px; z-index: 10000;
+  font: 700 12px/1 -apple-system, "Segoe UI", Arial, sans-serif;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 16px; border: 2px solid #111; border-radius: 0;
+  background: #fff; color: #111; cursor: pointer; box-shadow: 3px 3px 0 #111;
+}
+.seo-toggle:hover { background: #111; color: #fff; }
+body.seo-map-on [data-seo] { position: relative; outline: 2px dashed var(--seo-c, #16A34A); outline-offset: 5px; }
+body.seo-map-on [data-seo]::before {
+  content: attr(data-seo);
+  position: absolute; top: 0; left: 0; transform: translateY(-100%);
+  background: var(--seo-c, #16A34A); color: #fff;
+  font: 700 11px/1.4 -apple-system, "Segoe UI", Arial, sans-serif;
+  letter-spacing: 0.03em; padding: 3px 8px; white-space: nowrap;
+  z-index: 9999; pointer-events: none; max-width: 92vw; overflow: hidden; text-overflow: ellipsis;
+}
+body.seo-map-on [data-seo-status="present"] { --seo-c: #16A34A; }
+body.seo-map-on [data-seo-status="partial"] { --seo-c: #EA580C; }
+.seo-legend { display: none; }
+body.seo-map-on .seo-legend {
+  display: block; position: fixed; left: 16px; bottom: 16px; z-index: 10000;
+  width: 300px; max-width: calc(100vw - 32px);
+  background: #fff; color: #111; border: 2px solid #111; box-shadow: 4px 4px 0 #111;
+  padding: 16px 18px; font: 400 12.5px/1.5 -apple-system, "Segoe UI", Arial, sans-serif;
+  max-height: 70vh; overflow: auto;
+}
+.seo-legend h4 { font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 8px; }
+.seo-legend .key { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.seo-legend .sw { width: 12px; height: 12px; flex: none; border-radius: 2px; }
+.seo-legend .sw.p { background: #16A34A; } .seo-legend .sw.pa { background: #EA580C; } .seo-legend .sw.m { background: #DC2626; }
+.seo-legend .gaps { margin: 10px 0 0; padding: 10px 0 0; border-top: 1px solid #ddd; }
+.seo-legend ul { margin: 6px 0 0; padding-left: 18px; }
+.seo-legend li { margin-bottom: 3px; }
+@media (max-width: 560px) { .seo-legend { display: none !important; } }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#top">Skip to content</a>
+
+<!-- brief.md CONTENT & HIERARCHY §1 — Masthead + sticky nav -->
+<div class="masthead">
+  <a href="#top" aria-label="Chase Wealth Management — home">
+    <svg class="logo-svg" viewBox="0 0 300 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chase Wealth Management">
+      <g fill="currentColor">
+        <path d="M61.8,20.6 A32,32 0 1 0 61.8,63.4 L50.6,53.4 A17,17 0 1 1 50.6,30.6 Z"/>
+        <path d="M55,34 A8,8 0 0 1 55,50 A11,11 0 0 0 55,34 Z"/>
+      </g>
+      <text x="92" y="45" fill="currentColor" font-family="'Playfair Display', Georgia, serif" font-weight="600" font-size="34" letter-spacing="3">CHASE</text>
+      <text x="93" y="65" fill="currentColor" font-family="Lora, Georgia, serif" font-weight="500" font-size="10.5" letter-spacing="4">WEALTH MANAGEMENT</text>
+    </svg>
+  </a>
+  <p class="issue smallcaps">A fee-only fiduciary practice <span class="orn">◆</span> Taking new clients this quarter</p>
+</div>
+<header class="navbar">
+  <nav class="wrap nav smallcaps" aria-label="Primary">
+    <a class="link" href="#services">Services</a>
+    <a class="link" href="#method">Method</a>
+    <a class="link" href="#contact">Contact</a>
+    <a class="btn" href="#contact">Book a free call</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- brief.md CONTENT & HIERARCHY §2 — Hero: the cover; value prop verbatim, two CTAs -->
+  <section class="hero wrap">
+    <p class="kicker smallcaps">On the keeping of wealth</p>
+    <h1 data-seo="H1 · relevance signal" data-seo-status="partial">Built once.<br><em>Kept for generations.</em></h1>
+    <p class="lede" data-seo="Value prop · 'fee-only fiduciary' keywords" data-seo-status="present">Chase Wealth Management is a fee-only fiduciary practice. We build written plans and rule-based portfolios for families who want their money managed the way good things are engineered: plainly, precisely, and to last.</p>
+    <div class="cta-row">
+      <a class="btn" href="#contact">Book a free call</a>
+      <a class="btn ghost" href="#services">See the work</a>
+    </div>
+    <figure class="plate reveal" aria-hidden="true">
+      <!-- Engraved plate — inline SVG standing in for photography -->
+      <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="plate-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F1E6CC"/>
+            <stop offset="0.65" stop-color="#F6EFDE" stop-opacity="0.45"/>
+            <stop offset="1" stop-color="#F7F2E8" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="plate-sun" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#C9A45C" stop-opacity="0.35"/>
+            <stop offset="1" stop-color="#C9A45C" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="720" height="200" rx="12" fill="url(#plate-sky)"/>
+        <circle cx="600" cy="64" r="56" fill="url(#plate-sun)"/>
+        <g fill="none" stroke="#191613" stroke-width="0.8">
+          <line x1="0" y1="200" x2="720" y2="200"/>
+          <path d="M40,200 C160,120 300,180 400,120 C500,60 620,110 680,60"/>
+          <path d="M40,200 C170,140 300,190 410,140 C510,95 620,130 680,90" opacity="0.55"/>
+          <path d="M40,200 C180,160 310,196 420,160 C520,128 620,150 680,120" opacity="0.3"/>
+        </g>
+        <g stroke="#A8843C" stroke-width="0.9" fill="none">
+          <circle cx="600" cy="64" r="26"/>
+          <circle cx="600" cy="64" r="34" opacity="0.5"/>
+          <line x1="600" y1="18" x2="600" y2="26"/><line x1="600" y1="102" x2="600" y2="110"/>
+          <line x1="554" y1="64" x2="562" y2="64"/><line x1="638" y1="64" x2="646" y2="64"/>
+        </g>
+        <g stroke="#191613" stroke-width="0.5" opacity="0.5">
+          <line x1="40" y1="208" x2="40" y2="214"/><line x1="200" y1="208" x2="200" y2="214"/>
+          <line x1="360" y1="208" x2="360" y2="214"/><line x1="520" y1="208" x2="520" y2="214"/>
+          <line x1="680" y1="208" x2="680" y2="214"/>
+        </g>
+      </svg>
+      <figcaption class="caption"><b>FIG. 1</b> — Compounding, uninterrupted.</figcaption>
+    </figure>
+  </section>
+
+  <!-- brief.md CONTENT & HIERARCHY §3 — Trust strip -->
+  <aside class="trust" aria-label="Firm principles">
+    <div class="wrap">
+      <ul class="smallcaps">
+        <li>Fee-only fiduciary</li>
+        <li>Rules-based rebalancing</li>
+        <li>Written plans, verified annually</li>
+        <li>No commissions, ever</li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- brief.md CONTENT & HIERARCHY §4 — Stats -->
+  <section class="stats wrap" aria-label="Firm facts" data-seo="Specific, verifiable numbers (§3.2)" data-seo-status="present">
+    <div class="row reveal stagger">
+      <div class="stat"><p class="n">$480M</p><p class="l">Assets under advisement</p></div>
+      <div class="stat"><p class="n">26 yrs</p><p class="l">Combined advisor tenure</p></div>
+      <div class="stat"><p class="n">100%</p><p class="l">Fee-only, fiduciary, always</p></div>
+    </div>
+  </section>
+
+  <!-- brief.md CONTENT & HIERARCHY §5 — Services: three, no bundling -->
+  <section id="services" class="feature" data-seo="Service keywords · H2/H3 + schema slot" data-seo-status="partial">
+    <div class="wrap">
+      <div class="feat-head reveal">
+        <p class="smallcaps">The Services</p>
+        <h2>Three disciplines, practiced whole.</h2>
+        <p class="sub">No bundles, no products, no fine print — each service exists because families need it, never because it pays us more.</p>
+      </div>
+      <div class="columns reveal stagger">
+        <article class="colm">
+          <p class="numeral">I.</p>
+          <h3>Investment management</h3>
+          <p>Globally diversified, low-cost portfolios, rebalanced by written rule. The rule is on paper; you may read it.</p>
+        </article>
+        <article class="colm">
+          <p class="numeral">II.</p>
+          <h3>Financial planning</h3>
+          <p>Retirement income, taxes, insurance, and estate — bound in one document, reviewed with you annually.</p>
+        </article>
+        <article class="colm">
+          <p class="numeral">III.</p>
+          <h3>Ongoing counsel</h3>
+          <p>One advisor who knows the whole structure, for every decision that touches it — this year and in thirty.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- brief.md CONTENT & HIERARCHY §6 — Method: the black spread; fee close -->
+  <section id="method" class="feature spread" data-seo="Process · E-E-A-T expertise (§1)" data-seo-status="present">
+    <div class="wrap">
+      <div class="feat-head reveal">
+        <p class="smallcaps">The Method</p>
+        <h2 style="color: var(--cream)">Three steps, each ending in writing.</h2>
+        <p class="sub">A process you can verify beats a promise you must take on faith.</p>
+      </div>
+      <div class="m-grid reveal stagger">
+        <div class="m-cell">
+          <p class="no">1.</p>
+          <h3>Assess</h3>
+          <p class="out">Output — full inventory</p>
+          <p>A free call, then a complete picture: every account, obligation, and intention, gathered in one place.</p>
+        </div>
+        <div class="m-cell">
+          <p class="no">2.</p>
+          <h3>Plan</h3>
+          <p class="out">Output — written plan &amp; model portfolio</p>
+          <p>Walked through with you line by line, until every recommendation is understood — or struck.</p>
+        </div>
+        <div class="m-cell">
+          <p class="no">3.</p>
+          <h3>Maintain</h3>
+          <p class="out">Output — quarterly reports, annual reviews</p>
+          <p>Rule-based rebalancing on schedule; the plan kept true the same way it was made.</p>
+        </div>
+      </div>
+      <div class="fee reveal" data-seo="Fee transparency — add real $ (§3.2)" data-seo-status="partial">
+        <p>One flat fee, in writing — no commissions, no products sold, no asterisks.</p>
+        <p class="note">The entire fee schedule, in one sentence</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- brief.md CONTENT & HIERARCHY §7 — Proof: the pull quote -->
+  <section class="feature" aria-label="Client testimonial" data-seo="Social proof · Review schema slot (§1)" data-seo-status="partial">
+    <div class="wrap reveal">
+      <blockquote class="pull">
+        <span class="mark" aria-hidden="true">&ldquo;</span>
+        <p>They removed everything from my finances that didn't need to be there. What's left is simple, and it works.</p>
+        <footer class="smallcaps">M. Whitfield <span class="orn">◆</span> Client since 2016</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- brief.md CONTENT & HIERARCHY §8 — Contact: the engraved invitation -->
+  <section id="contact" class="contact wrap" data-seo="Conversion · local/hiring intent (§2)" data-seo-status="present">
+    <div class="invite reveal">
+      <h2>Begin with one honest hour.</h2>
+      <p class="sub">A first conversation costs nothing and obliges nothing. We are taking new clients this quarter.</p>
+      <form action="#" method="post">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field full">
+          <label for="subject">Subject</label>
+          <input id="subject" name="subject" type="text" required>
+        </div>
+        <div class="field full">
+          <label for="message">Message (optional)</label>
+          <textarea id="message" name="message" rows="4"></textarea>
+        </div>
+        <button class="btn" type="submit">Book my free call</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- brief.md CONTENT & HIERARCHY §9 — Footer: the colophon -->
+<footer class="site">
+  <div class="wrap">
+    <svg class="logo-svg" viewBox="0 0 300 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chase Wealth Management">
+      <g fill="currentColor">
+        <path d="M61.8,20.6 A32,32 0 1 0 61.8,63.4 L50.6,53.4 A17,17 0 1 1 50.6,30.6 Z"/>
+        <path d="M55,34 A8,8 0 0 1 55,50 A11,11 0 0 0 55,34 Z"/>
+      </g>
+      <text x="92" y="45" fill="currentColor" font-family="'Playfair Display', Georgia, serif" font-weight="600" font-size="34" letter-spacing="3">CHASE</text>
+      <text x="93" y="65" fill="currentColor" font-family="Lora, Georgia, serif" font-weight="500" font-size="10.5" letter-spacing="4">WEALTH MANAGEMENT</text>
+    </svg>
+    <p class="tagline">Advice on your side of the table.</p>
+    <nav class="foot-links smallcaps" aria-label="Footer">
+      <a href="#services">Services</a>
+      <a href="#method">Method</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div><a class="btn" href="#contact">Book a free call</a></div>
+    <p class="legal" data-seo="RIA disclosure — add NAP, Form ADV, Privacy/Terms (§1,§4)" data-seo-status="partial">Chase Wealth Management is a fee-only registered investment adviser. Registration does not imply a certain level of skill or training. Nothing herein constitutes investment advice; all investing involves risk, including possible loss of principal.</p>
+  </div>
+</footer>
+
+<script>
+// Shared baseline (brief.md MOTION & INTERACTION): lightweight scroll-reveal, reduced-motion aware.
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+<!-- SEO MAP OVERLAY — dev/review tool. Remove for production. -->
+<aside class="seo-legend" aria-hidden="true">
+  <h4>SEO Map — Key</h4>
+  <div class="key"><span class="sw p"></span> Present — signal delivered</div>
+  <div class="key"><span class="sw pa"></span> Partial — needs strengthening</div>
+  <div class="key"><span class="sw m"></span> Missing — not on the page yet</div>
+  <div class="gaps">
+    <strong>Missing sections to add:</strong>
+    <ul>
+      <li>JSON-LD schema in &lt;head&gt;</li>
+      <li>Advisor bio + credentials (CFP®/CFA)</li>
+      <li>FAQ (question + short answer)</li>
+      <li>NAP — address &amp; phone</li>
+      <li>Form ADV / Privacy / Terms links</li>
+      <li>Aggregate review rating</li>
+    </ul>
+  </div>
+</aside>
+<script>
+/* SEO MAP OVERLAY — dev/review tool. Remove for production. */
+(function () {
+  var btn = document.createElement('button');
+  btn.className = 'seo-toggle';
+  btn.type = 'button';
+  btn.textContent = 'Show SEO map';
+  btn.addEventListener('click', function () {
+    var on = document.body.classList.toggle('seo-map-on');
+    btn.textContent = on ? 'Hide SEO map' : 'Show SEO map';
+  });
+  document.body.appendChild(btn);
+})();
+</script>
+</body>
+</html>
