@@ -1,0 +1,54 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## What this repo is
+
+Design exploration for **Chase Wealth Management**, a fee-only fiduciary wealth-management firm. Each `mockups/*.html` file is a **self-contained, single-page landing-page concept** rendering the *same* firm and copy in a *different* visual design style. They are competing mockups, not pages of one site — nothing links between them.
+
+**The client picked the Material concept.** It has been promoted out of `mockups/` to the repo root as `index.html`, populated with the real firm/advisor details, and joined by a real second page (`about.html`). The root pages are the live direction; everything still in `mockups/` is a losing alternate kept for reference.
+
+There is **no build system, no dependencies, no tests, no framework**. Each file is hand-written HTML with an inline `<style>` block (and occasionally inline `<script>`). Fonts load from Google Fonts via CDN. To view a page, open its `.html` file directly in a browser.
+
+## Layout
+
+- `index.html` — **the site's landing page** (the former `mockups/material.html`). Real NAP, advisor credentials, six services, service marquee, JSON-LD (`FinancialService` + `Person`).
+- `about.html` — **the advisor bio page** for Chase Dalton: hero, at-a-glance facts, a sticky chapter TOC over six narrative sections, two pull quotes, closing CTA. Same Material design tokens as `index.html`; JSON-LD `ProfilePage`/`Person`.
+- `mockups/art-deco.html`, `neo-geo.html`, `neumorphic.html`, `modernist.html`, `neo-modernist.html`, `minimalism.html`, and the later concepts — the alternate design concepts. Filename = style name. (`material.html` is gone; it became `index.html`.)
+- `mockups/prompts.md` — the design brief for each concept: a three-paragraph prompt (mood, philosophy, references) that drives the corresponding HTML file. `neumorphic` and `modernist` are constrained to strict black & white; entry 2 (**Material**) is the brief the root pages follow. Note `neo-modernist.html` is a later crossover concept (Neo-Geo × Modernist) and has **no** entry in `prompts.md`.
+- `mockups/brief.md` — a structured companion to `prompts.md`: fills a fixed-field template (project, audience, content/hierarchy, assets, constraints, deliverable) with the firm's constants shared by every concept. Tone/References/Motion are the per-concept fields, chosen from `prompts.md`.
+- `docs/seo-stuff.md` — SEO/AIO/GEO strategy notes (E-E-A-T, local SEO, AI-engine citation). Written originally for an estate-planning *attorney*; translate legal specifics to financial (`FinancialService`/`FinancialAdvisor` schema, SEC/FINRA ad rules) when applying.
+- `docs/site-todo.md` — actionable checklist of sections/content/schema the mockups still need to be Google-rankable and AI-citable (advisor bio, fee transparency, FAQ, JSON-LD, etc.). Nothing on it is implemented in the concepts yet.
+- `docs/seo-sections.md` — defines the SEO-signal sections and documents the in-mockup **"SEO map" overlay** (see Conventions below).
+- `docs/website-layout-ideas.md` — the 12 Figma layout patterns, each mapped to which concept uses it.
+
+## Conventions each concept follows
+
+- Single file, no external CSS/JS except Google Fonts. Keep it that way — a concept must render standalone.
+- CSS custom properties in `:root` define the palette and font stack; the palette encodes the style's intent (e.g. neo-modernist uses one `--signal` accent color against a monochrome field). Change design tokens there, not inline.
+- A top HTML comment states the design concept; the palette comment often names the single accent color deliberately.
+- The two black-and-white concepts must stay strictly monochrome — all emphasis comes from scale/contrast/light, not hue.
+- Shared page structure across concepts: sticky nav → hero → ~5–6 `<section>`s (services, process, proof) → closing CTA. The firm's copy and section meaning are consistent; only the visual treatment differs between files. The concrete shared copy (stats: $480M AUA, 26 yrs tenure, 100% fee-only; services: Investment management / Financial planning / Ongoing counsel; method: Assess → Plan → Maintain; testimonial: M. Whitfield; tagline: "Advice on your side of the table") is inventoried in `mockups/brief.md`.
+- **SEO-map overlay** — some concepts embed a dev/review tool: a fixed "Show SEO map" button that outlines the SEO-signal sections via `data-seo` / `data-seo-status` attributes plus a legend. It adds no layout when off and must be **stripped for the production build**. Implemented in `neo-modernist`, `modernist`, `neumorphic`, `minimalism`; not in `art-deco`, `neo-geo`, or the root pages. `modernist`/`neumorphic` use a palette-independent (hardcoded-color, system-font) variant so the block is drop-in identical. See `docs/seo-sections.md`.
+
+## Client constraints (root pages — non-negotiable)
+
+The placeholder copy inventoried in `brief.md` was invented for the mockups. `index.html` and `about.html` carry the **real** firm's content and are bound by the client's rules. Do not reintroduce the mockup placeholders into the root pages.
+
+- **No promissory statements.** Nothing that promises, projects, or implies an outcome, return, or ranking. This killed the hero's fake portfolio card ("$1,248,900", "▲ 6.2% YTD", "Retirement readiness: on track / 92nd percentile") and lines like "you'll leave with at least one concrete improvement."
+- **No AUM.** No assets-under-management or assets-under-advisement figure anywhere — the mockups' "$480M AUA" stat is out, and so is the whole stats row that carried it.
+- **State registered**, not SEC. The disclosure reads "state-registered investment adviser," plus registration-does-not-imply-skill and states-served language.
+- **Fee model:** fee-only, one **annual** advisory fee, no commissions, no product sales. These exact terms are load-bearing — "fee-based" means something different and must not be substituted.
+- **No third-party testimonials.** The mockups' "M. Whitfield · client since 2016" quote is fabricated; real ones would need SEC Marketing Rule disclosures. The root pages use a first-person philosophy quote from Chase Dalton instead.
+- **Advisor:** Chase Dalton, Owner & Advisor. Credentials are **Master of Science in Finance (UMKC)** and **BBA Finance (Pittsburg State)** — no CFP®/CFA; don't add credentials he doesn't hold.
+- **NAP** (keep byte-identical across pages, schema, and any directory listing): Chase Wealth Management · 1201 NW Briarcliff Pkwy, Suite 201, Kansas City, MO 64116 · (816) 588-4681.
+- **Services** are the client's own seven terms: financial planning, tax planning, investments, business planning & analysis, legacy, liability, risk. They appear as six cards plus the marquee strip under the hero.
+- Open TODOs left in the markup: confirm the production domain (canonical + schema URLs), swap the generic `adviserinfo.sec.gov` link for the firm's CRD-specific Form ADV link, and replace the "CD" monogram placeholders with Chase's headshot.
+
+## Working here
+
+- When adding a new concept, add its brief to `mockups/prompts.md` (three paragraphs: mood/arrival, philosophy/typography/interaction, abstract references) and create a matching `mockups/<style-name>.html`.
+- When editing a concept, honor its brief in `mockups/prompts.md` — the interaction feel (e.g. "machined and weighty," "snappy with a soft landing," "metronomic," "cushioned") is part of the spec, not incidental.
+- When adding a **page to the real site**, copy the `:root` token block, app bar, and footer from `index.html` verbatim so the two root pages stay a single design system, and follow the Material brief's interaction feel ("snappy and precise with a soft landing"). Both root pages ship the same reveal-on-scroll + ripple scripts and a `prefers-reduced-motion` block.
+- Note the root pages inherited the Material file's **strictly black-and-white** palette, not the "deep botanical green" its `prompts.md` entry describes. That divergence predates the client's choice and is what he approved — don't "fix" it toward green without asking.
+- The `git` default branch for PRs is `main`; work is currently on `master`. The repo has no commit history yet — all files are untracked.
