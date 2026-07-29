@@ -198,9 +198,12 @@ header {
   border-radius: var(--r-lg);
   box-shadow: var(--e2);
   padding: 26px 28px;
-  transition: transform 0.35s cubic-bezier(.2,.7,.3,1), box-shadow 0.35s cubic-bezier(.2,.7,.3,1);
+  /* z-index reverts only after the card has finished settling back down, so it
+     never drops behind its neighbour mid-animation. */
+  transition: transform 0.35s cubic-bezier(.2,.7,.3,1),
+              box-shadow 0.35s cubic-bezier(.2,.7,.3,1),
+              z-index 0s 0.35s;
 }
-.m-card:hover { transform: translateY(-6px); box-shadow: var(--e3); }
 .m-card .k { font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .m-card .v { font-size: 26px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; margin-top: 6px; line-height: 1.2; }
 .m-card .sub { font-size: 14px; color: var(--muted); font-weight: 600; margin-top: 6px; line-height: 1.5; }
@@ -211,6 +214,16 @@ header {
 .m-card.c2 .sub { color: #BFBFBF; }
 .m-card.c3 { width: 70%; align-self: flex-end; margin-top: -16px; z-index: 1; background: var(--surface-tonal); box-shadow: var(--e1); }
 .m-card.c3 .v { font-size: 20px; }
+/* Hover lifts the card to the front of the shingle. Declared after .c1/.c2/.c3
+   so it outranks their z-index (same specificity, later in source). */
+.m-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--e3);
+  z-index: 10;
+  transition: transform 0.35s cubic-bezier(.2,.7,.3,1),
+              box-shadow 0.35s cubic-bezier(.2,.7,.3,1),
+              z-index 0s;
+}
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .chips li {
   list-style: none;
