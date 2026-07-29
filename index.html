@@ -36,6 +36,7 @@
         "addressCountry": "US"
       },
       "areaServed": { "@type": "AdministrativeArea", "name": "Kansas City metropolitan area" },
+      "feesAndCommissionsSpecification": "Fee-only. One annual advisory fee charged as a percentage of assets under management: 1.00% on $0 to $1,000,000; 0.90% on $1,000,001 to $2,000,000; 0.80% on $2,000,001 to $3,000,000; 0.70% on $3,000,001 to $4,000,000; 0.60% on $4,000,001 and above. No commissions and no product sales.",
       "founder": { "@id": "https://www.chasewealthmanagement.com/about.html#chase-dalton" },
       "employee": { "@id": "https://www.chasewealthmanagement.com/about.html#chase-dalton" },
       "hasOfferCatalog": {
@@ -339,6 +340,56 @@ header {
 .fee-chip svg { color: var(--primary); flex: none; }
 .fee-chip span em { font-style: normal; color: var(--muted); font-weight: 600; }
 
+/* ---------- Fee schedule ---------- */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.fees { padding: 88px 0 0; }
+.fee-card {
+  max-width: 720px; margin: 0 auto;
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  box-shadow: var(--e2);
+  padding: 14px 44px 34px;
+}
+@media (max-width: 560px) { .fee-card { padding: 8px 24px 26px; } }
+.fee-table { width: 100%; border-collapse: collapse; }
+.fee-table thead th {
+  font-size: 11.5px; font-weight: 800;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted);
+  padding: 22px 0 14px;
+  border-bottom: 1.5px solid var(--outline);
+}
+.fee-table thead th:first-child { text-align: left; }
+.fee-table thead th:last-child { text-align: right; }
+.fee-table tbody th {
+  text-align: left; font-weight: 600; font-size: 16.5px;
+  color: var(--body); padding: 20px 0;
+  font-variant-numeric: tabular-nums;
+}
+.fee-table tbody td {
+  text-align: right; padding: 20px 0;
+  font-size: 24px; font-weight: 800; color: var(--ink);
+  letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+}
+.fee-table tbody tr + tr > * { border-top: 1px solid var(--outline); }
+.fee-table tbody tr { transition: background 0.2s ease; }
+.fee-table tbody tr:hover { background: var(--surface-tonal); }
+.fee-table tbody tr:hover > *:first-child { box-shadow: -14px 0 0 var(--surface-tonal); }
+.fee-table tbody tr:hover > *:last-child { box-shadow: 14px 0 0 var(--surface-tonal); }
+@media (max-width: 560px) {
+  .fee-table tbody th { font-size: 15px; }
+  .fee-table tbody td { font-size: 20px; }
+}
+.fee-note {
+  max-width: 720px; margin: 22px auto 0;
+  font-size: 13.5px; line-height: 1.7; color: var(--muted);
+  text-align: center;
+}
+
 /* ---------- Philosophy quote ---------- */
 .philosophy { padding: 96px 0 80px; }
 .quote-card {
@@ -454,6 +505,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
       <a href="about.html">About</a>
       <a href="#services">Services</a>
       <a href="#process">How it works</a>
+      <a href="#fees">Fees</a>
       <a href="#contact">Contact</a>
     </nav>
     <a class="btn filled" href="#contact">Book a free call</a>
@@ -678,6 +730,39 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
     </div>
   </section>
 
+  <!-- Fee schedule -->
+  <section class="fees" id="fees">
+    <div class="wrap">
+      <div class="sec-head" style="text-align:center; margin-inline:auto;">
+        <span class="label reveal">Fees</span>
+        <h2 class="reveal">What it costs, in writing</h2>
+        <p class="reveal">One annual advisory fee, charged as a percentage of the assets we manage.
+        The rate steps down as the relationship grows.</p>
+      </div>
+      <div class="fee-card reveal">
+        <table class="fee-table">
+          <caption class="sr-only">Chase Wealth Management annual advisory fee schedule by portfolio value</caption>
+          <thead>
+            <tr>
+              <th scope="col">Portfolio value</th>
+              <th scope="col">Annual fee</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">$0 to $1,000,000</th><td>1.00%</td></tr>
+            <tr><th scope="row">$1,000,001 to $2,000,000</th><td>0.90%</td></tr>
+            <tr><th scope="row">$2,000,001 to $3,000,000</th><td>0.80%</td></tr>
+            <tr><th scope="row">$3,000,001 to $4,000,000</th><td>0.70%</td></tr>
+            <tr><th scope="row">$4,000,001 and above</th><td>0.60%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fee-note reveal">The rate above is applied to the assets we manage for you and is
+      set out in full in your advisory agreement before you sign anything. No commissions, no
+      product sales.</p>
+    </div>
+  </section>
+
   <!-- Philosophy -->
   <section class="philosophy">
     <div class="wrap">
@@ -765,6 +850,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
         <a href="about.html">About Chase</a>
         <a href="#services">Services</a>
         <a href="#process">How it works</a>
+        <a href="#fees">Fees</a>
         <a href="#contact">Contact</a>
         <!-- TODO: swap for the firm's direct IAPD/Form ADV link once the CRD number is issued. -->
         <a href="https://adviserinfo.sec.gov/" rel="noopener">Form ADV</a>

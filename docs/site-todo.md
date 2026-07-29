@@ -123,11 +123,15 @@ The concept files (`art-deco`, `neo-geo`, `neumorphic`, `modernist`, `neo-modern
 | Slot | Status on the shipped pages |
 |---|---|
 | Advisor bio block | ✅ teaser card on `index.html`, full bio page at `about.html` |
-| Fee/fiduciary transparency | 🟠 "one annual advisory fee, in writing — no commissions, no products sold"; the actual number is still not published |
+| Fee/fiduciary transparency | ✅ the real tiered schedule is published on-page in the `#fees` section (1.00% → 0.60% across five breakpoints) and mirrored into `feesAndCommissionsSpecification` in the schema. Beats the AllStreet benchmark of naming a number. |
 | Testimonials + reviews | ❌ deliberately absent — no real, disclosure-compliant testimonials exist yet (see the SEC Marketing Rule note under the compliance gate) |
 | FAQ block | ❌ not built |
 | Footer links | 🟠 About/Services/How it works/Contact/Form ADV present; Form ADV points at generic `adviserinfo.sec.gov` pending a CRD, and Privacy/Terms don't exist |
 | JSON-LD | ✅ `FinancialService` + `Person` on `index.html`; `ProfilePage`/`Person` on `about.html`. `hasOfferCatalog` lists the six real services. Not yet validated with Google's Rich Results Test. |
 | NAP | ✅ identical in the contact card, both footers, and both schema blocks |
 
-**Do not** add an AUM figure or an aggregate rating to the shipped pages — the client prohibits publishing AUM, and there is no review corpus to aggregate. Revisit the fee number and FAQ next; both are high-leverage and neither needs new client data beyond the fee schedule.
+**Do not** add an AUM figure or an aggregate rating to the shipped pages — the client prohibits publishing AUM, and there is no review corpus to aggregate. Note that publishing the *fee schedule* (a rate applied to a client's own portfolio) is not the same thing as publishing firm AUM, and is explicitly wanted.
+
+**Open question on the fee schedule:** the source the client supplied is just the five brackets and rates. It does not say whether the tiers are **marginal** (each dollar billed at its own bracket's rate) or **flat** (the whole balance billed at the rate its total falls into) — the difference is thousands of dollars a year for a client near a breakpoint. The on-page note is deliberately worded to avoid asserting either. Confirm against the advisory agreement and Form ADV Part 2A, then make the page say so explicitly; ambiguity about how a fee is calculated is exactly what the SEC advertising rules treat as misleading.
+
+FAQ + `FAQPage` schema is now the highest-value remaining item.
