@@ -6,7 +6,7 @@ reference_site: https://www.allstreetwealth.com/
 firm_type: fee-only fiduciary wealth management (NOT a law firm)
 audience: agents, builders, content strategists
 status: draft — nothing below is implemented in the current mockups yet
-last_updated: 2026-07-24
+last_updated: 2026-08-03
 tags: [checklist, seo, aio, geo, e-e-a-t, schema, content]
 ---
 
@@ -129,9 +129,59 @@ The concept files (`art-deco`, `neo-geo`, `neumorphic`, `modernist`, `neo-modern
 | Footer links | 🟠 About/Services/How it works/Contact/Form ADV present; Form ADV points at generic `adviserinfo.sec.gov` pending a CRD, and Privacy/Terms don't exist |
 | JSON-LD | ✅ `FinancialService` + `Person` on `index.html`; `ProfilePage`/`Person` on `about.html`. `hasOfferCatalog` lists the six real services. Not yet validated with Google's Rich Results Test. |
 | NAP | ✅ identical in the contact card, both footers, and both schema blocks |
+| Scheduling | 🟠 Calendly iframe live in `#schedule` on `index.html`, beside the form — but pointed at a **placeholder URL**, see below |
+| Contact form | ❌ renders and validates, but submits nowhere — see below |
 
 **Do not** add an AUM figure or an aggregate rating to the shipped pages — the client prohibits publishing AUM, and there is no review corpus to aggregate. Note that publishing the *fee schedule* (a rate applied to a client's own portfolio) is not the same thing as publishing firm AUM, and is explicitly wanted.
 
 **Open question on the fee schedule:** the source the client supplied is just the five brackets and rates. It does not say whether the tiers are **marginal** (each dollar billed at its own bracket's rate) or **flat** (the whole balance billed at the rate its total falls into) — the difference is thousands of dollars a year for a client near a breakpoint. The on-page note is deliberately worded to avoid asserting either. Confirm against the advisory agreement and Form ADV Part 2A, then make the page say so explicitly; ambiguity about how a fee is calculated is exactly what the SEC advertising rules treat as misleading.
 
 FAQ + `FAQPage` schema is now the highest-value remaining item.
+
+---
+
+## Scheduling and the contact form
+
+The old contact card is gone. `index.html` now ends with a single `#schedule` section that puts
+the two paths **side by side**: a white scheduler panel carrying the Calendly iframe on the left,
+and a dark form rail on the right holding the contact form, the availability line, and the NAP.
+Every "Book a free call" CTA on both pages points at it. The form rail also carries `id="contact"`
+so the older `#contact` anchors still land.
+
+The section uses `.wrap-wide` (1320px) rather than the site's standard 1120px `.wrap` — the
+scheduler column has to stay above Calendly's ~680px stacking threshold while the form rail keeps
+a usable 400px. Below a 1240px viewport the two columns stack; that is the only place they do.
+
+It is the **plain-iframe embed**, not Calendly's `widget.js` — deliberately, so `index.html`
+keeps the no-external-JS rule. The cost is no prefill, no `event_scheduled` tracking, no
+auto-resize, and no guarantee the banner-hiding params apply. Reversing that decision means
+adding `widget.js` and giving up the convention; don't do it by accident.
+
+- [ ] **Swap the placeholder Calendly URL.** Two occurrences in `index.html` — the iframe
+  `src` and the link in `.sched-note`. The slug is `chase-wealth-placeholder/intro-call`.
+  Keep the query string (`hide_gdpr_banner=1` plus the three color params) on the `src`.
+- [ ] **Confirm `hide_gdpr_banner=1` actually takes effect.** Calendly's help page lists
+  cookie-banner hiding as a JS-embed capability, so the param may be ignored on a raw iframe.
+  If it is, the embed shows Calendly's own cookie banner inside the card — decide then whether
+  to live with it or move to `widget.js`.
+- [ ] **Confirm the embed height against the real event type.** It is hardcoded — `700px`
+  desktop, `1010px` under 680px wide — because the iframe cannot auto-size. Both numbers came
+  from Calendly's docs, not from measurement. An event type with a long description or extra
+  intake questions will scroll inside the iframe or leave dead space. Check both breakpoints
+  once the real URL is in.
+- [ ] **The contact form still submits nowhere.** `onsubmit` calls `preventDefault()` and
+  fires an `alert()` claiming someone will reach out; the data is discarded. This was survivable
+  when it was the page's only CTA and nobody was driving traffic. It is worse now — the
+  scheduler beside it genuinely works, so the failing path is the one chosen by the visitor
+  who is not ready to commit to a time slot. Needs a real handler (Formspree, Netlify Forms,
+  or a `mailto:` fallback) or removal.
+- [ ] **Privacy Policy is now load-bearing, not just missing.** Calendly is a third party that
+  sets cookies and collects name, email, and free-text notes from visitors. The page carries a
+  one-line disclosure under the embed saying so, which is not a substitute. Whatever handler
+  the contact form gets is a second processor with the same problem.
+
+**Compliance:** the scheduler itself asserts nothing, so it is outside the SEC/FINRA
+advertising-rule gate. The section copy around it is not — "Thirty minutes, at no cost" and
+"Nothing is sold on this call" are marketing claims and need the same review as the rest of the
+page. Anything the event type's own description says on Calendly is published marketing copy too,
+and it lives outside this repo where the review step cannot see it.

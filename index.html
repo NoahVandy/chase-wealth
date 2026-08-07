@@ -12,6 +12,13 @@
 <meta name="description" content="Chase Wealth Management is a fee-only fiduciary financial planning firm in Kansas City, Missouri. We integrate investment management, tax planning, estate planning, insurance analysis, and business exit strategy into one written plan.">
 <!-- TODO: confirm the production domain, then set the canonical + all schema URLs to match. -->
 <link rel="canonical" href="https://www.chasewealthmanagement.com/">
+<!-- Cropped from assets/Light-Email-Logo.png to the "C" mark only — the full lockup is
+     unreadable at 16px. Transparent field. The mark is solid black, so it will be faint on
+     a dark browser tab strip; the fix when it matters is a light variant of the mark, not
+     a background plate. -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -137,7 +144,12 @@ header {
   border-bottom: 1px solid var(--outline);
 }
 .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
-.logo-svg { height: 42px; width: auto; color: var(--ink); display: block; }
+/* The supplied PNG carries ~25% transparent padding top and bottom, so the box is
+   much taller than the visible mark. The negative margins claw that dead space back,
+   which is what lets the mark grow without the app bar growing with it — 72px of box
+   occupies 44px of layout. Keep the margin under ~18px (the padding at this height)
+   or the mark starts overlapping the bar's border. */
+.logo-img { height: 72px; width: auto; display: block; margin: -14px 0; }
 .nav-links { display: flex; gap: 6px; }
 .nav-links a {
   font-size: 14.5px; font-weight: 600; color: var(--body);
@@ -172,7 +184,9 @@ header {
   transform: scale(0); animation: ripple 0.55s ease-out forwards;
   pointer-events: none;
 }
-.btn.tonal .ripple, .btn.outlined .ripple { background: rgba(0,0,0,0.16); }
+.btn.inverse { background: #FFFFFF; color: var(--ink); box-shadow: var(--e1); }
+.btn.inverse:hover { background: #EDEDED; box-shadow: var(--e2); transform: translateY(-1px); }
+.btn.tonal .ripple, .btn.outlined .ripple, .btn.inverse .ripple { background: rgba(0,0,0,0.16); }
 @keyframes ripple { to { transform: scale(3.4); opacity: 0; } }
 
 /* ---------- Hero ---------- */
@@ -181,9 +195,16 @@ header {
   display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center;
 }
 @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
-.hero h1 { font-size: clamp(36px, 5.2vw, 58px); font-weight: 800; margin: 22px 0 18px; }
+/* Wide gap below the h1 and a tight one below .hero-sub — that spacing is what makes the sub read
+   as a header belonging to the lede rather than as a second line of the headline. Change the two
+   margins together or the grouping flips. */
+.hero h1 { font-size: clamp(36px, 5.2vw, 58px); font-weight: 800; margin: 22px 0 30px; }
 .hero h1 .hl { color: var(--primary); }
-.hero p.lede { font-size: 18px; max-width: 32em; color: var(--muted); margin: 0 0 32px; }
+.hero .hero-sub {
+  font-size: clamp(19px, 2.1vw, 23px); font-weight: 800;
+  line-height: 1.25; margin: 0 0 8px; max-width: 26em;
+}
+.hero p.lede { font-size: 17px; max-width: 32em; color: var(--muted); margin: 0 0 32px; }
 .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
 .trust { margin-top: 30px; display: flex; gap: 24px; flex-wrap: wrap; font-size: 13.5px; color: var(--muted); font-weight: 600; }
 .trust span { display: inline-flex; align-items: center; gap: 8px; }
@@ -316,6 +337,10 @@ header {
   color: var(--primary); background: var(--surface-tonal);
   border-radius: var(--r-pill); padding: 7px 15px;
 }
+/* The human line sits directly under the credential pills on purpose — the formal thing and the
+   informal thing adjacent, neither one softened to meet the other. */
+.human { font-size: 14px; color: var(--muted); margin: -12px 0 26px; letter-spacing: 0.01em; }
+.human span { margin: 0 7px; color: var(--outline); }
 .textlink { font-size: 15px; font-weight: 700; color: var(--primary); display: inline-flex; align-items: center; gap: 7px; }
 .textlink:hover { text-decoration: underline; }
 .textlink .arrow { transition: transform 0.25s ease; }
@@ -324,8 +349,11 @@ header {
 /* ---------- Process stepper ---------- */
 .process { padding: 80px 0; background: var(--surface-tonal); border-radius: var(--r-lg); margin: 0 20px; }
 @media (max-width: 700px) { .process { margin: 0; border-radius: 0; } }
-.stepper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 48px; }
-@media (max-width: 900px) { .stepper { grid-template-columns: 1fr; } }
+.stepper { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 48px; }
+/* Four steps need an intermediate 2-up stop; going straight to one column at 900px left the
+   cards absurdly wide on tablets. */
+@media (max-width: 1000px) { .stepper { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .stepper { grid-template-columns: 1fr; } }
 .stp {
   background: var(--surface);
   border-radius: var(--r-md);
@@ -403,8 +431,17 @@ header {
   text-align: center;
 }
 
-/* ---------- Philosophy quote ---------- */
+/* ---------- Philosophy: stance row + quote ---------- */
 .philosophy { padding: 96px 0 80px; }
+/* Deliberately NOT a dark band. Windle reserves its single inversion for the CTA; here that
+   inversion is already spent on the dark form rail in #schedule. Two darks would spend it twice. */
+.stance { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 64px; }
+@media (max-width: 900px) { .stance { grid-template-columns: 1fr; gap: 36px; } }
+.stn h3 {
+  font-size: clamp(19px, 2vw, 22px); line-height: 1.3; letter-spacing: -0.01em;
+  color: var(--ink); margin: 0 0 10px;
+}
+.stn p { font-size: 15px; line-height: 1.7; color: var(--muted); margin: 0; }
 .quote-card {
   max-width: 760px; margin: 0 auto;
   background: var(--surface);
@@ -429,55 +466,105 @@ header {
 }
 .quote-card cite { font-style: normal; font-size: 13.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 
-/* ---------- Contact ---------- */
-.contact { padding: 0 0 100px; }
-.contact-card {
-  display: grid; grid-template-columns: 1fr 1.05fr;
+/* ---------- Connect: scheduler and form, side by side ---------- */
+.connect { padding: 88px 0 100px; }
+/* Wider than the page's 1120px rhythm on purpose. Calendly's iframe drops to its stacked
+   mobile layout below ~680px wide, so the scheduler column has to clear that while the form
+   rail still gets a usable width.
+   Two-column iframe width = viewport - 64 (wrap padding) - 28 (gap) - 400 (rail) - 16
+   (frame padding) = viewport - 508, capped by the 1320px wrap. Collapsing at 1240px leaves
+   733px at the narrowest two-column width — clear of the threshold with room to spare. */
+.wrap-wide { max-width: 1320px; margin: 0 auto; padding: 0 32px; }
+.connect-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 28px;
+  align-items: stretch;
+}
+@media (max-width: 1240px) { .connect-grid { grid-template-columns: 1fr; } }
+.panel {
   background: var(--surface);
   border-radius: var(--r-lg);
   box-shadow: var(--e3);
   overflow: hidden;
 }
-@media (max-width: 860px) { .contact-card { grid-template-columns: 1fr; } }
-.contact-copy { padding: 52px 48px; background: var(--primary); color: #E8E8E8; }
-.contact-copy h2 { color: #FFFFFF; font-size: clamp(26px, 3.4vw, 38px); margin: 14px 0 16px; }
-.contact-copy p { font-size: 15.5px; max-width: 26em; color: #BFBFBF; }
-.contact-copy .label { background: rgba(255,255,255,0.14); color: #E8E8E8; }
-.avail { display: inline-flex; align-items: center; gap: 10px; margin-top: 4px; font-size: 14px; font-weight: 700; color: #FFFFFF; }
+.panel h3 { font-size: 21px; margin: 0 0 6px; }
+
+/* -- Scheduler panel -- */
+.panel-head { padding: 28px 32px 20px; }
+.panel-head p { margin: 0; font-size: 14.5px; color: var(--muted); }
+.sched-frame-pad { padding: 0 8px; }
+/* Calendly's plain-iframe embed — no widget.js, so this page keeps the no-external-JS rule.
+   The tradeoff is no auto-resize, so the height is ours to set. Calendly's documented floor
+   is 700px for a scrollbar-free desktop layout; the widget stacks below ~680px wide and
+   needs considerably more. Both numbers are from their docs, not measured — recheck against
+   the real event type. */
+.sched-frame {
+  display: block;
+  width: 100%;
+  min-width: 320px;
+  height: 700px;
+  border: 0;
+  border-radius: calc(var(--r-lg) - 8px);
+}
+/* Single-column iframe width = viewport - 80, so it crosses Calendly's ~680px threshold at a
+   760px viewport — not 680px. Below that the widget stacks and needs the taller box. */
+@media (max-width: 760px) { .sched-frame { height: 1010px; } }
+.sched-note { padding: 16px 32px 24px; margin: 0; font-size: 12.5px; line-height: 1.7; color: var(--muted); }
+.sched-note a { font-weight: 700; color: var(--body); text-decoration: underline; }
+.sched-note a:hover { color: var(--primary); }
+
+/* -- Form rail (dark) -- */
+/* Column stretches to the scheduler's height (the iframe sets it), so the panel is a flex
+   column and the office block is pushed to the bottom edge. Otherwise the rail ends short and
+   leaves dead space under the address. */
+.form-panel { background: var(--primary); color: #E8E8E8; padding: 30px 32px 34px; display: flex; flex-direction: column; }
+/* The panel is a flex column, so these two would stretch edge to edge without align-self —
+   the label is a pill and must hug its text. */
+.form-panel > .label { background: rgba(255,255,255,0.14); color: #E8E8E8; margin-bottom: 12px; align-self: flex-start; }
+.form-panel > .avail { align-self: flex-start; }
+.form-panel h3 { color: #FFFFFF; }
+.form-panel > p { margin: 0 0 20px; font-size: 14.5px; color: #BFBFBF; }
+.contact-form { display: flex; flex-direction: column; gap: 14px; }
+.field { position: relative; }
+.field label {
+  display: block; font-size: 12px; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #B8B8B8; margin-bottom: 7px;
+}
+.field input, .field select, .field textarea {
+  width: 100%; font-family: var(--sans); font-size: 15px; color: #FFFFFF;
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.28);
+  border-radius: var(--r-sm);
+  padding: 13px 15px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.field textarea { resize: vertical; min-height: 78px; }
+.field input::placeholder, .field textarea::placeholder { color: #8E8E8E; }
+.field select option { background: #1A1A1A; color: #FFFFFF; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: #FFFFFF; background: rgba(255,255,255,0.13);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.22);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+.contact-form .btn { align-self: flex-start; margin-top: 4px; }
+.form-note { font-size: 12px; color: #9A9A9A; margin: 0; }
+.form-panel .avail { margin-top: auto; padding-top: 28px; }
+.avail { display: inline-flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 700; color: #FFFFFF; }
 .avail::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 0 0 4px rgba(255,255,255,0.25); }
-.nap { margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.18); font-style: normal; font-size: 14.5px; line-height: 1.7; color: #D5D5D5; }
-.nap .nap-k { display: block; font-size: 11.5px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #9A9A9A; margin-bottom: 6px; }
+.nap { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.18); font-style: normal; font-size: 14px; line-height: 1.7; color: #D5D5D5; }
+.nap .nap-k { display: block; font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #9A9A9A; margin-bottom: 6px; }
 .nap a { color: #FFFFFF; font-weight: 700; }
 .nap a:hover { text-decoration: underline; }
-.contact-form { padding: 52px 48px; display: flex; flex-direction: column; gap: 16px; }
-.field { position: relative; }
-.field input, .field select, .field textarea {
-  width: 100%; font-family: var(--sans); font-size: 15.5px; color: var(--ink);
-  background: var(--ground);
-  border: 1.5px solid var(--outline);
-  border-radius: var(--r-sm);
-  padding: 14px 16px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-.field textarea { resize: vertical; min-height: 88px; }
-.field input:focus, .field select:focus, .field textarea:focus {
-  outline: none; border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(0,0,0,0.14);
-}
-.field label {
-  display: block; font-size: 12.5px; font-weight: 800;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 7px;
-}
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-@media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
-.contact-form .btn { align-self: flex-start; margin-top: 6px; }
-.form-note { font-size: 12.5px; color: var(--muted); margin: 0; }
 
 /* ---------- Footer ---------- */
 footer { border-top: 1px solid var(--outline); padding: 56px 0 40px; font-size: 14px; color: var(--muted); }
 .foot-grid { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; }
-footer .logo-svg { height: 38px; color: var(--ink); margin-bottom: 10px; }
+/* Same height as the app bar's. The bottom margin trims the PNG's own padding down to
+   the ~10px gap the footer had before the logo swap. */
+footer .logo-img { height: 72px; margin: -14px 0 -10px; }
 footer .tagline { margin: 0 0 18px; font-weight: 600; }
 footer address { font-style: normal; line-height: 1.75; }
 footer address a { font-weight: 700; color: var(--ink); }
@@ -489,6 +576,51 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
 /* Reveal */
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s cubic-bezier(.2,.7,.3,1), transform 0.7s cubic-bezier(.2,.7,.3,1); }
 .reveal.in { opacity: 1; transform: none; }
+
+/* ============================================================
+   SEO MAP OVERLAY — dev/review tool. Remove this whole block (plus the [data-seo]
+   attrs, the .seo-legend markup, and the toggle <script>) for the production build.
+   Adds no layout when off. Palette-independent — hardcoded colors and system fonts,
+   so it stays legible against the strictly black-and-white page and is drop-in
+   identical to the variant in mockups/modernist.html. See docs/seo-sections.md.
+   ============================================================ */
+.seo-toggle {
+  position: fixed; top: 16px; right: 16px; z-index: 10000;
+  font: 700 12px/1 -apple-system, "Segoe UI", Arial, sans-serif;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 16px; border: 2px solid #111; border-radius: 999px;
+  background: #fff; color: #111; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+}
+.seo-toggle:hover { background: #111; color: #fff; }
+body.seo-map-on [data-seo] { position: relative; outline: 2px dashed var(--seo-c, #16A34A); outline-offset: 6px; }
+body.seo-map-on [data-seo]::before {
+  content: attr(data-seo);
+  position: absolute; top: 0; left: 0; transform: translateY(-100%);
+  background: var(--seo-c, #16A34A); color: #fff;
+  font: 700 11px/1.4 -apple-system, "Segoe UI", Arial, sans-serif;
+  letter-spacing: 0.03em; padding: 3px 8px; white-space: nowrap;
+  z-index: 9999; pointer-events: none; max-width: 92vw; overflow: hidden; text-overflow: ellipsis;
+}
+body.seo-map-on [data-seo-status="present"] { --seo-c: #16A34A; }
+body.seo-map-on [data-seo-status="partial"] { --seo-c: #EA580C; }
+body.seo-map-on [data-seo-status="missing"] { --seo-c: #DC2626; }
+.seo-legend { display: none; }
+body.seo-map-on .seo-legend {
+  display: block; position: fixed; left: 16px; bottom: 16px; z-index: 10000;
+  width: 330px; max-width: calc(100vw - 32px);
+  background: #fff; color: #111; border: 2px solid #111; border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+  padding: 16px 18px; font: 400 12.5px/1.55 -apple-system, "Segoe UI", Arial, sans-serif;
+  max-height: 70vh; overflow: auto;
+}
+.seo-legend h4 { font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 8px; }
+.seo-legend .key { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.seo-legend .sw { width: 12px; height: 12px; flex: none; border-radius: 2px; }
+.seo-legend .sw.p { background: #16A34A; } .seo-legend .sw.pa { background: #EA580C; } .seo-legend .sw.m { background: #DC2626; }
+.seo-legend .gaps { margin: 10px 0 0; padding: 10px 0 0; border-top: 1px solid #ddd; }
+.seo-legend ul { margin: 6px 0 0; padding-left: 18px; }
+.seo-legend li { margin-bottom: 4px; }
+@media (max-width: 560px) { .seo-legend { display: none !important; } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -505,14 +637,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
 <header>
   <div class="wrap nav">
     <a href="index.html" aria-label="Chase Wealth Management home">
-      <svg class="logo-svg" viewBox="0 0 300 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chase Wealth Management">
-        <g fill="currentColor">
-          <path d="M61.8,20.6 A32,32 0 1 0 61.8,63.4 L50.6,53.4 A17,17 0 1 1 50.6,30.6 Z"/>
-          <path d="M55,34 A8,8 0 0 1 55,50 A11,11 0 0 0 55,34 Z"/>
-        </g>
-        <text x="92" y="45" fill="currentColor" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-weight="800" font-size="34" letter-spacing="0.5">CHASE</text>
-        <text x="93" y="65" fill="currentColor" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-weight="600" font-size="11" letter-spacing="3.2">WEALTH MANAGEMENT</text>
-      </svg>
+      <img class="logo-img" src="assets/Light-Email-Logo.png" width="400" height="200" alt="Chase Wealth Management">
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="about.html">About</a>
@@ -521,7 +646,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
       <a href="#fees">Fees</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a class="btn filled" href="#contact">Book a free call</a>
+    <a class="btn filled" href="#schedule">Book a free call</a>
   </div>
 </header>
 
@@ -531,14 +656,30 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <span class="label reveal">Fee-only fiduciary · Kansas City, MO</span>
-        <h1 class="reveal">Your financial life,<br>brought into <span class="hl">alignment</span></h1>
-        <p class="lede reveal">Chase Wealth Management is a fee-only fiduciary practice. We integrate
-        investment management, tax planning, estate planning, insurance analysis, and business exit
-        strategy into one written plan — so every part of your financial life is working from the
-        same set of facts.</p>
+        <!-- Pill was "Fee-only fiduciary · Kansas City, MO". The keyword moved up into the H1, so
+             leaving it here too would have made the two read as a stutter. Pill keeps the local
+             signal only. -->
+        <span class="label reveal">Kansas City, MO</span>
+        <!-- Flat and keyword-bearing on purpose — it mirrors the <title> tag and the schema's
+             FinancialService description, so reader and crawler are told the same thing in the same
+             place. The voice lives in .hero-sub below, not here. This is Windle's hero structure:
+             a generic headline carrying the category, a subline carrying the personality. -->
+        <h1 class="reveal" data-seo="H1 · relevance signal — carries the primary keyword" data-seo-status="present">Fee-only fiduciary<br><span class="hl">wealth management</span></h1>
+        <!-- Chase's own standard, derived from about.html: "success is defined by seeing clients
+             become more educated, more confident, and more intentional." Makes comprehension the
+             measure rather than performance, which is why it asserts nothing the advertising rules
+             can catch. -->
+        <h2 class="hero-sub reveal">Success is you understanding it.</h2>
+        <!-- The "fee-only fiduciary practice in Kansas City" clause used to live here, because the
+             H1 carried no keywords and docs/seo-sections.md rates this lede a keyword signal. Now
+             that the H1 states it outright and the pill carries the city, repeating it here read as
+             a stutter three deep. The keyword is not lost — it moved up, which is where that doc
+             wanted it. -->
+        <p class="lede reveal" data-seo="Hero lede · plain value prop, keywords now in the H1" data-seo-status="present">Investments, taxes, estate, insurance, business exit — usually five different
+        offices and five different opinions. Here it's one written plan, one advisor, one annual
+        advisory fee.</p>
         <div class="cta-row reveal">
-          <a class="btn filled" href="#contact">Book a free call <span class="arrow">→</span></a>
+          <a class="btn filled" href="#schedule">Book a free call <span class="arrow">→</span></a>
           <a class="btn tonal" href="#services">Explore services</a>
         </div>
         <div class="trust reveal">
@@ -601,13 +742,16 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
   </div>
 
   <!-- Services -->
-  <section class="services" id="services">
+  <section class="services" id="services" data-seo="Service keywords · H2/H3 + hasOfferCatalog schema" data-seo-status="present">
     <div class="wrap">
       <div class="sec-head">
-        <span class="label reveal">What we do</span>
-        <h2 class="reveal">Everything in its place</h2>
-        <p class="reveal">Financial planning is about far more than investments alone. These six areas
-        are handled together, by the same advisor, in one coordinated plan.</p>
+        <!-- Pill was "What we do", which made the H2 below read as a stutter. "Services" also
+             matches the nav label and the #services anchor. -->
+        <span class="label reveal">Services</span>
+        <h2 class="reveal">What we actually do</h2>
+        <p class="reveal">Six areas, one advisor, one plan. They're handled together because
+        they don't actually behave like separate problems — a tax decision is an investment decision
+        is an estate decision.</p>
       </div>
       <div class="svc-grid">
         <article class="svc reveal">
@@ -677,7 +821,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
   </section>
 
   <!-- Advisor -->
-  <section class="advisor" id="advisor">
+  <section class="advisor" id="advisor" data-seo="Advisor bio · E-E-A-T — photo still missing" data-seo-status="partial">
     <div class="wrap">
       <div class="advisor-card reveal">
         <div class="portrait">
@@ -703,6 +847,13 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
             <li>BBA Finance — Pittsburg State</li>
             <li>Fourth-generation business owner</li>
           </ul>
+          <!-- The credential/personality adjacency: the pills above stay formal and untouched, this
+               line underneath is human. Every item is drawn from Chase's own "Discipline" and
+               "Outside the office" sections in about.html — nothing here is invented. If it changes,
+               change it there too; about.html is the source of truth for these. -->
+          <p class="human">Husband <span aria-hidden="true">|</span> Four years of track &amp; field at Pittsburg State
+          <span aria-hidden="true">|</span> Youth ministry <span aria-hidden="true">|</span> Faith, family,
+          fitness <span aria-hidden="true">|</span> All things motorsports</p>
           <a class="textlink" href="about.html">Read Chase's full story <span class="arrow">→</span></a>
         </div>
       </div>
@@ -710,30 +861,38 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
   </section>
 
   <!-- Process -->
-  <section class="process" id="process">
+  <section class="process" id="process" data-seo="Process · E-E-A-T expertise (§1)" data-seo-status="present">
     <div class="wrap">
       <div class="sec-head" style="text-align:center; margin-inline:auto;">
         <span class="label reveal">How it works</span>
-        <h2 class="reveal">Three steps, zero mystery</h2>
+        <h2 class="reveal">Four steps, zero mystery</h2>
       </div>
+      <!-- Step names were Assess / Plan / Maintain. Verbs instead of nouns, and a fourth step that
+           hands the outcome back to the client rather than ending on the firm's own activity. -->
       <div class="stepper">
         <div class="stp reveal">
           <div class="dot">1</div>
-          <h3>Assess</h3>
+          <h3>Talk it through</h3>
           <p>A conversation at no cost to map where you are, what you're working toward, and whether
           we're the right fit. No pitch, no pressure.</p>
         </div>
         <div class="stp reveal">
           <div class="dot">2</div>
-          <h3>Plan</h3>
+          <h3>Put it in writing</h3>
           <p>We draft your written plan and model portfolio, then walk you through it line by line
           until every part of it makes sense to you.</p>
         </div>
         <div class="stp reveal">
           <div class="dot">3</div>
-          <h3>Maintain</h3>
+          <h3>Keep it current</h3>
           <p>We implement, monitor, and report on a set schedule — and revisit the plan when your
           life, your business, or the law changes the inputs.</p>
+        </div>
+        <div class="stp reveal">
+          <div class="dot">4</div>
+          <h3>Go live your life</h3>
+          <p>Which is the entire point of the first three. You get a plan that holds up and a
+          person to call when something changes, so your attention can go somewhere else.</p>
         </div>
       </div>
       <div class="fee-chip reveal">
@@ -744,7 +903,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
   </section>
 
   <!-- Fee schedule -->
-  <section class="fees" id="fees">
+  <section class="fees" id="fees" data-seo="Fee transparency · real numbers published" data-seo-status="present">
     <div class="wrap">
       <div class="sec-head" style="text-align:center; margin-inline:auto;">
         <span class="label reveal">Fees</span>
@@ -777,8 +936,36 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
   </section>
 
   <!-- Philosophy -->
-  <section class="philosophy">
+  <section class="philosophy" data-seo="Social proof slot · first-person quote, no Review schema" data-seo-status="partial">
     <div class="wrap">
+      <!-- Stance row. Three declaratives, ordered serious → serious → light; the self-deprecating
+           one goes last on purpose, because leading with it spends the authority before it's earned.
+           Every claim here is about our own conduct, not about outcomes or about other firms. -->
+      <div class="sec-head" style="text-align:center; margin-inline:auto;">
+        <span class="label reveal">What we believe</span>
+        <h2 class="reveal">Advice on your side of the table</h2>
+      </div>
+      <div class="stance">
+        <!-- This slot used to be "You'll always know what you own" — cut once the H1 became the
+             comprehension claim, since it was the same idea twice. Replaced with the preparedness
+             theme from Chase's "What shaped me" section, which nothing else on the page carries. -->
+        <div class="stn reveal">
+          <h3>We plan for the year you don't see coming.</h3>
+          <p>A plan built in a calm year is the one that has to hold in a bad one, so that's the
+          year we build it for. It's also why these pieces are handled together instead of
+          separately — bad years don't arrive one category at a time.</p>
+        </div>
+        <div class="stn reveal">
+          <h3>The only person paying us is you.</h3>
+          <p>Fee-only. One annual advisory fee, in writing. No commissions, no products sold — so
+          there is no version of this where one recommendation quietly pays us more than another.</p>
+        </div>
+        <div class="stn reveal">
+          <h3>Nobody grew up dreaming about beneficiary designations.</h3>
+          <p>You don't have to find this stuff interesting. Bring the questions and the deadlines;
+          we'll take the parts that put people to sleep.</p>
+        </div>
+      </div>
       <figure class="quote-card reveal">
         <blockquote>Financial planning is about far more than investments alone. It is about
         creating alignment across every area of your life.</blockquote>
@@ -787,15 +974,72 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
     </div>
   </section>
 
-  <!-- Contact -->
-  <section class="contact" id="contact">
-    <div class="wrap">
-      <div class="contact-card reveal">
-        <div class="contact-copy">
-          <span class="label">Get started</span>
-          <h2>Begin with one honest conversation</h2>
-          <p>Thirty minutes with a fiduciary advisor to talk through where you are and what
-          questions you're facing. It costs nothing and obligates nothing.</p>
+  <!-- Get started: scheduler and form side by side -->
+  <section class="connect" id="schedule" data-seo="Conversion · form submits nowhere, Calendly placeholder" data-seo-status="partial">
+    <div class="wrap-wide">
+      <div class="sec-head" style="text-align:center; margin-inline:auto;">
+        <span class="label reveal">Get started</span>
+        <h2 class="reveal">Two ways to begin</h2>
+        <p class="reveal">Take a time that works, or send a note and we will come back to you.
+        Either way it costs nothing and obligates nothing.</p>
+      </div>
+      <div class="connect-grid">
+
+        <div class="panel sched-panel reveal">
+          <div class="panel-head">
+            <h3>Pick a time</h3>
+            <p>Thirty minutes with Chase. Nothing is sold on this call — it is a conversation about
+            where you are and what questions you are facing.</p>
+          </div>
+          <div class="sched-frame-pad">
+            <!-- TODO: swap the placeholder slug for the firm's real Calendly event-type URL.
+                 Keep the query string: the three color params map Calendly onto this page's
+                 black-and-white palette. hide_gdpr_banner is included but may be ignored —
+                 Calendly documents banner-hiding as a JS-embed feature; confirm on the real link. -->
+            <iframe class="sched-frame"
+                    title="Schedule an introductory call with Chase Dalton"
+                    loading="lazy"
+                    src="https://calendly.com/chase-wealth-placeholder/intro-call?hide_gdpr_banner=1&amp;background_color=ffffff&amp;text_color=3a3a3a&amp;primary_color=111111"></iframe>
+          </div>
+          <p class="sched-note">Calendar not loading? Some ad blockers stop it. Book at
+          <a href="https://calendly.com/chase-wealth-placeholder/intro-call" rel="noopener">calendly.com</a>
+          or call <a href="tel:+18165884681">(816) 588-4681</a>. Scheduling is handled by Calendly —
+          the name, email, and any notes you enter there go to Calendly, not through this site.</p>
+        </div>
+
+        <div class="panel form-panel reveal" id="contact">
+          <span class="label">Or send a note</span>
+          <h3>Not ready to pick a time?</h3>
+          <p>Tell us a little and we will reply within one business day.</p>
+          <form class="contact-form" onsubmit="event.preventDefault(); alert('Thanks — we\'ll reach out within one business day.');">
+            <div class="form-row">
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="topic">What's on your mind?</label>
+              <select id="topic" name="topic">
+                <option>Retirement planning</option>
+                <option>Investment review</option>
+                <option>Tax &amp; estate strategy</option>
+                <option>Business exit planning</option>
+                <option>Just getting organized</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="msg">Anything else? (optional)</label>
+              <textarea id="msg" name="message" placeholder="Tell us a little about your situation…"></textarea>
+            </div>
+            <button class="btn inverse" type="submit">Send my note <span class="arrow">→</span></button>
+            <p class="form-note">Please don't include account numbers or other sensitive information
+            in this form.</p>
+          </form>
           <span class="avail">Currently accepting new clients</span>
           <address class="nap">
             <span class="nap-k">Office</span>
@@ -805,35 +1049,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
             <a href="tel:+18165884681">(816) 588-4681</a>
           </address>
         </div>
-        <form class="contact-form" onsubmit="event.preventDefault(); alert('Thanks — we\'ll reach out within one business day.');">
-          <div class="form-row">
-            <div class="field">
-              <label for="name">Name</label>
-              <input id="name" name="name" type="text" autocomplete="name" required>
-            </div>
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required>
-            </div>
-          </div>
-          <div class="field">
-            <label for="topic">What's on your mind?</label>
-            <select id="topic" name="topic">
-              <option>Retirement planning</option>
-              <option>Investment review</option>
-              <option>Tax &amp; estate strategy</option>
-              <option>Business exit planning</option>
-              <option>Just getting organized</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="msg">Anything else? (optional)</label>
-            <textarea id="msg" name="message" placeholder="Tell us a little about your situation…"></textarea>
-          </div>
-          <button class="btn filled" type="submit">Book my free call <span class="arrow">→</span></button>
-          <p class="form-note">Please don't include account numbers or other sensitive information
-          in this form.</p>
-        </form>
+
       </div>
     </div>
   </section>
@@ -844,16 +1060,9 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <svg class="logo-svg" viewBox="0 0 300 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chase Wealth Management">
-          <g fill="currentColor">
-            <path d="M61.8,20.6 A32,32 0 1 0 61.8,63.4 L50.6,53.4 A17,17 0 1 1 50.6,30.6 Z"/>
-            <path d="M55,34 A8,8 0 0 1 55,50 A11,11 0 0 0 55,34 Z"/>
-          </g>
-          <text x="92" y="45" fill="currentColor" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-weight="800" font-size="34" letter-spacing="0.5">CHASE</text>
-          <text x="93" y="65" fill="currentColor" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-weight="600" font-size="11" letter-spacing="3.2">WEALTH MANAGEMENT</text>
-        </svg>
+        <img class="logo-img" src="assets/Light-Email-Logo.png" width="400" height="200" alt="Chase Wealth Management">
         <p class="tagline">Advice on your side of the table.</p>
-        <address>
+        <address data-seo="NAP · identical across page, footers, schema" data-seo-status="present">
           1201 NW Briarcliff Pkwy, Suite 201<br>
           Kansas City, MO 64116<br>
           <a href="tel:+18165884681">(816) 588-4681</a>
@@ -869,7 +1078,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
         <a href="https://adviserinfo.sec.gov/" rel="noopener">Form ADV</a>
       </nav>
     </div>
-    <p class="legal">Chase Wealth Management is a state-registered investment adviser. Registration
+    <p class="legal" data-seo="RIA disclosure · Form ADV generic, no Privacy/Terms" data-seo-status="partial">Chase Wealth Management is a state-registered investment adviser. Registration
     does not imply any level of skill or training, nor does it constitute an endorsement by any
     securities regulator. Advisory services are offered only to residents of states in which the
     firm is registered or exempt from registration. Nothing on this page is an offer to buy or sell
@@ -878,6 +1087,10 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
     © 2026 Chase Wealth Management. All rights reserved.</p>
   </div>
 </footer>
+
+<!-- Calendly inline widget loader. This is the page's only non-font external dependency and
+     the one place it departs from the self-contained-single-file convention. -->
+<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
 <script>
 // Reveal on scroll
@@ -900,6 +1113,48 @@ document.querySelectorAll('.btn').forEach(btn => {
     setTimeout(() => s.remove(), 600);
   });
 });
+</script>
+
+<!-- SEO MAP OVERLAY — dev/review tool. Remove this aside and the script below for production. -->
+<aside class="seo-legend" aria-hidden="true">
+  <h4>SEO Map — Key</h4>
+  <div class="key"><span class="sw p"></span> Present — signal delivered</div>
+  <div class="key"><span class="sw pa"></span> Partial — needs strengthening</div>
+  <div class="key"><span class="sw m"></span> Missing — not on the page yet</div>
+  <div class="gaps">
+    <strong>Gaps (no home on the page):</strong>
+    <ul>
+      <li>FAQ block + <code>FAQPage</code> schema — highest-value item left</li>
+      <li>Testimonials + <code>Review</code>/<code>AggregateRating</code> — blocked, no
+      disclosure-compliant corpus exists</li>
+      <li>Privacy Policy and Terms pages</li>
+      <li>Case studies / client stories</li>
+      <li><code>robots.txt</code> allowing AI crawlers</li>
+    </ul>
+  </div>
+  <div class="gaps">
+    <strong>On the page but not working:</strong>
+    <ul>
+      <li>Contact form submits nowhere — discards the lead, then claims someone will reach out</li>
+      <li>Calendly points at the placeholder slug</li>
+      <li>Form ADV links to generic <code>adviserinfo.sec.gov</code>, pending a CRD</li>
+      <li>JSON-LD never validated with Google's Rich Results Test</li>
+    </ul>
+  </div>
+</aside>
+<script>
+/* SEO MAP OVERLAY — dev/review tool. Remove for production. */
+(function () {
+  var btn = document.createElement('button');
+  btn.className = 'seo-toggle';
+  btn.type = 'button';
+  btn.textContent = 'Show SEO map';
+  btn.addEventListener('click', function () {
+    var on = document.body.classList.toggle('seo-map-on');
+    btn.textContent = on ? 'Hide SEO map' : 'Show SEO map';
+  });
+  document.body.appendChild(btn);
+})();
 </script>
 </body>
 </html>

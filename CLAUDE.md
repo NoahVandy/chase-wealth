@@ -12,7 +12,7 @@ There is **no build system, no dependencies, no tests, no framework**. Each file
 
 ## Layout
 
-- `index.html` — **the site's landing page** (the former `mockups/material.html`). Real NAP, advisor credentials, six services, service marquee, JSON-LD (`FinancialService` + `Person`).
+- `index.html` — **the site's landing page** (the former `mockups/material.html`). Real NAP, advisor credentials, six services, service marquee, JSON-LD (`FinancialService` + `Person`), and a `#schedule` section pairing a Calendly iframe with the contact form side by side (it replaced the old full-width contact card; the form rail keeps `id="contact"` so old anchors still resolve).
 - `about.html` — **the advisor bio page** for Chase Dalton: hero, at-a-glance facts, a sticky chapter TOC over six narrative sections, two pull quotes, closing CTA. Same Material design tokens as `index.html`; JSON-LD `ProfilePage`/`Person`.
 - `mockups/art-deco.html`, `neo-geo.html`, `neumorphic.html`, `modernist.html`, `neo-modernist.html`, `minimalism.html`, and the later concepts — the alternate design concepts. Filename = style name. (`material.html` is gone; it became `index.html`.)
 - `mockups/prompts.md` — the design brief for each concept: a three-paragraph prompt (mood, philosophy, references) that drives the corresponding HTML file. `neumorphic` and `modernist` are constrained to strict black & white; entry 2 (**Material**) is the brief the root pages follow. Note `neo-modernist.html` is a later crossover concept (Neo-Geo × Modernist) and has **no** entry in `prompts.md`.
@@ -24,7 +24,7 @@ There is **no build system, no dependencies, no tests, no framework**. Each file
 
 ## Conventions each concept follows
 
-- Single file, no external CSS/JS except Google Fonts. Keep it that way — a concept must render standalone.
+- Single file, no external CSS/JS except Google Fonts. Keep it that way — a concept must render standalone. `index.html`'s Calendly embed is a plain `<iframe>` precisely to hold this line; do **not** "upgrade" it to Calendly's `widget.js` without deciding to give the rule up. What that costs is listed in `docs/site-todo.md`.
 - CSS custom properties in `:root` define the palette and font stack; the palette encodes the style's intent (e.g. neo-modernist uses one `--signal` accent color against a monochrome field). Change design tokens there, not inline.
 - A top HTML comment states the design concept; the palette comment often names the single accent color deliberately.
 - The two black-and-white concepts must stay strictly monochrome — all emphasis comes from scale/contrast/light, not hue.

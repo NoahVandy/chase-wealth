@@ -1,0 +1,60 @@
+# Publishes ONLY the real site to GitHub Pages.
+#
+# Pages used to serve the whole repo from main, which also published mockups/ (losing design
+# concepts carrying invented placeholder content the client prohibits) and docs/ (internal
+# strategy notes). The mockups have since been deleted; docs/ stays in the repo and is kept
+# off the public site by simply never being copied below.
+#
+# ONE-TIME SETUP: Settings → Pages → Build and deployment → Source must be set to
+# "GitHub Actions". Until that is switched this workflow runs, but nothing it produces is
+# served and the old whole-repo build stays live.
+#
+# ADDING A PAGE: add it to the "Assemble" step. Nothing ships unless it is named there —
+# that is the entire point of this file. A new page that renders fine locally and 404s in
+# production almost certainly just needs a line here.
+
+name: Deploy site to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; queue rather than cancel so a push is not silently dropped.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Assemble the published site
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          cp index.html about.html robots.txt sitemap.xml _site/
+          cp -r assets _site/
+          echo "Publishing:"
+          find _site -type f | sort
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

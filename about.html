@@ -12,6 +12,13 @@
 <meta name="description" content="Chase Dalton is the owner and advisor of Chase Wealth Management in Kansas City, Missouri. A Master of Science in Finance and a fourth-generation business owner, he helps families align investments, tax, legacy, and business planning in one written plan.">
 <!-- TODO: confirm the production domain, then set the canonical + all schema URLs to match. -->
 <link rel="canonical" href="https://www.chasewealthmanagement.com/about.html">
+<!-- Cropped from assets/Light-Email-Logo.png to the "C" mark only — the full lockup is
+     unreadable at 16px. Transparent field. The mark is solid black, so it will be faint on
+     a dark browser tab strip; the fix when it matters is a light variant of the mark, not
+     a background plate. -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -118,7 +125,12 @@ header {
   border-bottom: 1px solid var(--outline);
 }
 .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
-.logo-svg { height: 42px; width: auto; color: var(--ink); display: block; }
+/* The supplied PNG carries ~25% transparent padding top and bottom, so the box is
+   much taller than the visible mark. The negative margins claw that dead space back,
+   which is what lets the mark grow without the app bar growing with it — 72px of box
+   occupies 44px of layout. Keep the margin under ~18px (the padding at this height)
+   or the mark starts overlapping the bar's border. */
+.logo-img { height: 72px; width: auto; display: block; margin: -14px 0; }
 .nav-links { display: flex; gap: 6px; }
 .nav-links a {
   font-size: 14.5px; font-weight: 600; color: var(--body);
@@ -296,7 +308,9 @@ header {
 /* ---------- Footer ---------- */
 footer { border-top: 1px solid var(--outline); padding: 56px 0 40px; font-size: 14px; color: var(--muted); }
 .foot-grid { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; }
-footer .logo-svg { height: 38px; color: var(--ink); margin-bottom: 10px; }
+/* Same height as the app bar's. The bottom margin trims the PNG's own padding down to
+   the ~10px gap the footer had before the logo swap. */
+footer .logo-img { height: 72px; margin: -14px 0 -10px; }
 footer .tagline { margin: 0 0 18px; font-weight: 600; }
 footer address { font-style: normal; line-height: 1.75; }
 footer address a { font-weight: 700; color: var(--ink); }
@@ -321,14 +335,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
 <header>
   <div class="wrap nav">
     <a href="index.html" aria-label="Chase Wealth Management home">
-      <svg class="logo-svg" viewBox="0 0 300 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chase Wealth Management">
-        <g fill="currentColor">
-          <path d="M61.8,20.6 A32,32 0 1 0 61.8,63.4 L50.6,53.4 A17,17 0 1 1 50.6,30.6 Z"/>
-          <path d="M55,34 A8,8 0 0 1 55,50 A11,11 0 0 0 55,34 Z"/>
-        </g>
-        <text x="92" y="45" fill="currentColor" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-weight="800" font-size="34" letter-spacing="0.5">CHASE</text>
-        <text x="93" y="65" fill="currentColor" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-weight="600" font-size="11" letter-spacing="3.2">WEALTH MANAGEMENT</text>
-      </svg>
+      <img class="logo-img" src="assets/Light-Email-Logo.png" width="400" height="200" alt="Chase Wealth Management">
     </a>
     <nav class="nav-links" aria-label="Primary">
       <a href="about.html" aria-current="page">About</a>
@@ -337,7 +344,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
       <a href="index.html#fees">Fees</a>
       <a href="index.html#contact">Contact</a>
     </nav>
-    <a class="btn filled" href="index.html#contact">Book a free call</a>
+    <a class="btn filled" href="index.html#schedule">Book a free call</a>
   </div>
 </header>
 
@@ -358,7 +365,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
           <li>BBA Finance — Pittsburg State</li>
           <li>Fourth-generation business owner</li>
         </ul>
-        <a class="btn filled reveal" href="index.html#contact">Book a free call <span class="arrow">→</span></a>
+        <a class="btn filled reveal" href="index.html#schedule">Book a free call <span class="arrow">→</span></a>
       </div>
       <div class="portrait-card reveal">
         <!-- Placeholder: swap the monogram for Chase's headshot when the photo is available. -->
@@ -502,7 +509,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
           nothing and obligates nothing.</p>
         </div>
         <div class="closing-actions">
-          <a class="btn filled" href="index.html#contact">Book a free call <span class="arrow">→</span></a>
+          <a class="btn filled" href="index.html#schedule">Book a free call <span class="arrow">→</span></a>
           <a class="btn tonal" href="index.html#services">See what we do</a>
           <span class="direct">Or call directly: <a href="tel:+18165884681">(816) 588-4681</a></span>
         </div>
@@ -516,14 +523,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <svg class="logo-svg" viewBox="0 0 300 84" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Chase Wealth Management">
-          <g fill="currentColor">
-            <path d="M61.8,20.6 A32,32 0 1 0 61.8,63.4 L50.6,53.4 A17,17 0 1 1 50.6,30.6 Z"/>
-            <path d="M55,34 A8,8 0 0 1 55,50 A11,11 0 0 0 55,34 Z"/>
-          </g>
-          <text x="92" y="45" fill="currentColor" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-weight="800" font-size="34" letter-spacing="0.5">CHASE</text>
-          <text x="93" y="65" fill="currentColor" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-weight="600" font-size="11" letter-spacing="3.2">WEALTH MANAGEMENT</text>
-        </svg>
+        <img class="logo-img" src="assets/Light-Email-Logo.png" width="400" height="200" alt="Chase Wealth Management">
         <p class="tagline">Advice on your side of the table.</p>
         <address>
           1201 NW Briarcliff Pkwy, Suite 201<br>
