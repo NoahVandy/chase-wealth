@@ -8,10 +8,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Chase Dalton | Chase Wealth Management — Kansas City, MO</title>
-<meta name="description" content="Chase Dalton is the owner and advisor of Chase Wealth Management in Kansas City, Missouri. A Master of Science in Finance and a fourth-generation business owner, he helps families align investments, tax, legacy, and business planning in one written plan.">
-<!-- TODO: confirm the production domain, then set the canonical + all schema URLs to match. -->
+<!-- 57 chars, was 62. Only ", MO" was cut; everything else is intact. -->
+<title>About Chase Dalton | Chase Wealth Management, Kansas City</title>
+<!-- 149 chars, down from 251. -->
+<meta name="description" content="Chase Dalton, owner and advisor of Chase Wealth Management in Kansas City, Missouri. MS Finance, fourth-generation business owner, fee-only fiduciary.">
+<!-- TODO — NOW BLOCKING, not cosmetic. As of 2026-08-11 www.chasewealthmanagement.com
+     301-redirects to raymondjames.com/chaserj, Chase's former firm. See the fuller note in
+     index.html. When the domain cuts over, change the canonical, the og: absolutes, and every
+     schema @id and URL together. -->
 <link rel="canonical" href="https://www.chasewealthmanagement.com/about.html">
+
+<!-- Open Graph / Twitter. Same rules as index.html: property= for og:, name= for twitter:,
+     absolute URLs only, and the image is the opaque og-card.png rather than the transparent
+     logo file. Deliberately the logo here too, not the ballpark photo — a link to the bio page
+     should still preview as the firm. -->
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="Chase Wealth Management">
+<meta property="profile:first_name" content="Chase">
+<meta property="profile:last_name" content="Dalton">
+<meta property="og:title" content="About Chase Dalton | Chase Wealth Management, Kansas City">
+<!-- 124 chars — under the ~125 social cards show before truncating. -->
+<meta property="og:description" content="Owner and advisor of Chase Wealth Management in Kansas City. MS Finance, fourth-generation business owner, fee-only fiduciary.">
+<meta property="og:url" content="https://noahvandy.github.io/chase-wealth/about.html">
+<meta property="og:image" content="https://noahvandy.github.io/chase-wealth/assets/og-card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Chase Wealth Management">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About Chase Dalton | Chase Wealth Management, Kansas City">
+<meta name="twitter:description" content="Owner and advisor of Chase Wealth Management in Kansas City, Missouri.">
+<meta name="twitter:image" content="https://noahvandy.github.io/chase-wealth/assets/og-card.png">
+<meta name="twitter:image:alt" content="Chase Wealth Management">
 <!-- Cropped from assets/Light-Email-Logo.png to the "C" mark only — the full lockup is
      unreadable at 16px. Transparent field. The mark is solid black, so it will be faint on
      a dark browser tab strip; the fix when it matters is a light variant of the mark, not
@@ -195,14 +223,15 @@ header {
 }
 .portrait-card figure { margin: 0; }
 /* The photo sets the frame's height at its own ratio — no fixed aspect-ratio, so
-   nothing is cropped. The max-width holds the upscale of a 320px-wide source to
-   ~1.25×; without it the single-column layout below 900px would blow it up to the
-   full card width. Re-tune it if the photo here is ever swapped again. */
+   nothing is cropped. max-width is now a layout choice rather than a resolution
+   ceiling: the source is 900px wide, comfortably past 2× the display size, and the
+   cap keeps the photo to the hero column's width when the layout goes single-column
+   below 900px. */
 .portrait-frame {
   background: var(--surface-tonal);
   border-radius: var(--r-md);
   overflow: hidden;
-  max-width: 400px;
+  max-width: 428px;
   margin: 0 auto;
 }
 .portrait-frame img { display: block; width: 100%; height: auto; }
@@ -223,8 +252,8 @@ header {
 
 /* Polaroid. The geometry does the work — even white border with a deep bottom
    band — so no novelty font is needed and the page keeps Manrope as its only
-   typeface. Deliberately untilted. At 268px the 428px-wide source is downscaled,
-   not stretched. */
+   typeface. Deliberately untilted. The 600px-wide source gives the 240px image
+   area a 2.5× pixel ratio, so it stays sharp on high-density screens. */
 .polaroid {
   margin: 0;
   width: 268px;
@@ -402,7 +431,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
       <div class="portrait-card reveal">
         <figure>
           <div class="portrait-frame">
-            <img src="assets/chase-dalton-ballpark.jpg" width="320" height="240"
+            <img src="assets/chase-dalton-ballpark.jpg" width="900" height="675"
                  alt="Chase Dalton, right, in a Kansas City Royals jersey at a ballpark, beside
                       oversized Babe Ruth and Mickey Mantle figures">
           </div>
@@ -476,9 +505,15 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
             life.</blockquote>
           </figure>
 
+          <!-- Scope boundary, per Chase 2026-08-11. index.html carries it on the tax and estate
+               service cards; this paragraph is where about.html makes the same claim to integrate
+               both disciplines, so the same division of labor belongs here. Phrased to match the
+               cards — a handoff, not a disclaimer. -->
           <p>Our approach integrates investment management, tax planning, estate planning, insurance
           analysis, and business exit strategies into one disciplined and intentional plan designed
-          to help clients live with confidence and purpose.</p>
+          to help clients live with confidence and purpose. Your attorney drafts the documents and
+          your CPA files the returns; the planning that surrounds them, and the work of keeping
+          every piece aligned, is ours.</p>
           <p>Our goal is to provide wise counsel through every season of life while helping clients
           better understand how each area of their financial life is interconnected. For me, success
           is defined by seeing clients become more educated, more confident, and more intentional
@@ -526,7 +561,7 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
           motorsports.</p>
 
           <figure class="polaroid">
-            <img src="assets/chase-dalton-wedding.jpg" width="428" height="640"
+            <img src="assets/chase-dalton-wedding.jpg" width="600" height="898"
                  alt="Chase Dalton and his wife on their wedding day">
             <figcaption>The Daltons, 2025</figcaption>
           </figure>

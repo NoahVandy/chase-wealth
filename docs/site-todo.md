@@ -132,6 +132,23 @@ The concept files (`art-deco`, `neo-geo`, `neumorphic`, `modernist`, `neo-modern
 | Scheduling | 🟠 Calendly iframe live in `#schedule` on `index.html`, beside the form, pointed at the firm's real event type (`cdalton-chasewm/30min`) — embed height and banner params still unverified against it, see below |
 | Contact form | ❌ renders and validates, but submits nowhere — see below |
 
+### Blocking: the production domain points at the former firm
+
+As of **2026-08-11**, `www.chasewealthmanagement.com` returns a 301 to
+`raymondjames.com/chaserj` — Chase's previous firm. The site is only reachable at
+`https://noahvandy.github.io/chase-wealth/`. Consequences, in severity order:
+
+- [ ] **The canonical tag on both pages points off-domain.** It names a URL that redirects to
+  Raymond James, which is an instruction to Google that the canonical version of these pages
+  lives on someone else's site. This is actively harmful to ranking, not merely stale.
+- [ ] **Every schema `@id` and `url`** uses the same unreachable domain, including the
+  `Person.image` that points at the headshot.
+- [ ] **The `og:` and `twitter:` absolutes** are pointed at the GitHub Pages URL precisely so the
+  link preview works today. They must move with everything else at cutover.
+- [ ] **Ask who controls the DNS.** The redirect target suggests the domain may still be
+  administered by, or pointed at, the former firm. That is a conversation before it is a config
+  change.
+
 **Do not** add an AUM figure or an aggregate rating to the shipped pages — the client prohibits publishing AUM, and there is no review corpus to aggregate. Note that publishing the *fee schedule* (a rate applied to a client's own portfolio) is not the same thing as publishing firm AUM, and is explicitly wanted.
 
 **Open question on the fee schedule:** the source the client supplied is just the five brackets and rates. It does not say whether the tiers are **marginal** (each dollar billed at its own bracket's rate) or **flat** (the whole balance billed at the rate its total falls into) — the difference is thousands of dollars a year for a client near a breakpoint. The on-page note is deliberately worded to avoid asserting either. Confirm against the advisory agreement and Form ADV Part 2A, then make the page say so explicitly; ambiguity about how a fee is calculated is exactly what the SEC advertising rules treat as misleading.

@@ -8,10 +8,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chase Wealth Management | Fee-Only Fiduciary Financial Advisor in Kansas City, MO</title>
-<meta name="description" content="Chase Wealth Management is a fee-only fiduciary financial planning firm in Kansas City, Missouri. We integrate investment management, tax planning, estate planning, insurance analysis, and business exit strategy into one written plan.">
-<!-- TODO: confirm the production domain, then set the canonical + all schema URLs to match. -->
+<!-- 57 chars. Google truncates the displayed title around 60, and the old one was 81 — it was
+     being cut mid-phrase in results. "Fiduciary" and "Financial" were the two words cut: they
+     overlap heavily with "Fee-Only" for a searcher, and both survive in the meta description,
+     the trust row, and the schema. The full firm name stays intact for branded search. -->
+<title>Chase Wealth Management | Fee-Only Advisor in Kansas City</title>
+<!-- 150 chars, down from 234. Google truncates around 150-160, so the old one lost its second
+     half — which is where the services were. -->
+<meta name="description" content="A fee-only fiduciary financial planning firm in Kansas City, Missouri. Investments, taxes, estate, insurance, and business planning in one written plan.">
+<!-- TODO — NOW BLOCKING, not cosmetic. As of 2026-08-11 www.chasewealthmanagement.com
+     301-redirects to raymondjames.com/chaserj, Chase's former firm. So this canonical points at
+     a URL that redirects off-domain, which tells Google the canonical version of this page lives
+     on Raymond James' site. The og: URLs below therefore use the address that actually serves
+     the site. When the domain cuts over, change all of it together: this canonical, the og:url
+     and og:image absolutes, and every schema @id and URL. -->
 <link rel="canonical" href="https://www.chasewealthmanagement.com/">
+
+<!-- Open Graph / Twitter — the link preview in iMessage, Slack, WhatsApp, etc.
+     Before these existed, scrapers guessed and surfaced Chase's headshot from the Person
+     schema's image field. Per Chase, 2026-08-11: the preview should be the logo.
+     Three things here are load-bearing and easy to break:
+     1. The attribute is property= for og: and name= for twitter:. Not type=.
+     2. og:image must be an ABSOLUTE url. Relative paths are not reliably resolved, and the
+        scraper is a different machine on a different network than the browser.
+     3. It points at assets/og-card.png, NOT the logo file. The logo is 400x200 on a fully
+        transparent field; platforms flatten transparency to black at their own discretion,
+        and a black logo on black is an empty card. og-card.png is 1200x630 and opaque. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Chase Wealth Management">
+<meta property="og:title" content="Chase Wealth Management | Fee-Only Advisor in Kansas City">
+<!-- 114 chars. Social cards show roughly 125 before truncating, and mobile is harsher than
+     desktop — keep this shorter than the meta description above, not equal to it. -->
+<meta property="og:description" content="A fee-only fiduciary wealth management firm in Kansas City. One written plan, one advisor, one annual advisory fee.">
+<meta property="og:url" content="https://noahvandy.github.io/chase-wealth/">
+<meta property="og:image" content="https://noahvandy.github.io/chase-wealth/assets/og-card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Chase Wealth Management">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Chase Wealth Management | Fee-Only Advisor in Kansas City">
+<meta name="twitter:description" content="A fee-only fiduciary wealth management firm in Kansas City. One written plan, one advisor, one annual advisory fee.">
+<meta name="twitter:image" content="https://noahvandy.github.io/chase-wealth/assets/og-card.png">
+<meta name="twitter:image:alt" content="Chase Wealth Management">
 <!-- Cropped from assets/Light-Email-Logo.png to the "C" mark only — the full lockup is
      unreadable at 16px. Transparent field. The mark is solid black, so it will be faint on
      a dark browser tab strip; the fix when it matters is a light variant of the mark, not
@@ -316,21 +355,28 @@ header {
   overflow: hidden;
 }
 @media (max-width: 820px) { .advisor-card { grid-template-columns: 1fr; } }
+/* The headshot is now a full-resolution original (800×1120 after resizing), so the
+   rail is full-bleed: the photo fills the panel edge to edge instead of floating
+   matted inside it. The card's overflow: hidden clips it to the rounded corner.
+   The old size cap is gone — it only existed to stop a 229px source from being
+   upscaled. */
 .portrait {
   background: var(--surface-tonal);
-  display: grid; place-items: center;
-  padding: 30px;
+  display: grid;
+  min-height: 340px;
 }
-.portrait figure { margin: 0; text-align: center; }
-/* The headshot source is only 229×321, so max-width is the ceiling on how far it
-   gets upscaled — 304px in the rail is about 1.33×, which is as far as this file
-   goes before it reads as soft. If the photographer's full-resolution original
-   arrives, drop the cap, let it fill the rail, and update the <img> width/height. */
+.portrait figure { margin: 0; }
 .portrait img {
-  display: block; margin: 0 auto;
-  width: 100%; max-width: 320px; height: auto;
-  border-radius: var(--r-md);
-  box-shadow: var(--e2);
+  display: block;
+  width: 100%; height: 100%;
+  /* Cropping is width-driven here, so bias upward to keep the face off the top edge. */
+  object-fit: cover; object-position: 50% 18%;
+}
+/* Stacked, the rail has no copy column to take its height from, so give the crop a
+   fixed ratio rather than letting a portrait photo run the full viewport width. */
+@media (max-width: 820px) {
+  .portrait { min-height: 0; }
+  .portrait img { height: auto; aspect-ratio: 4 / 5; }
 }
 .advisor-copy { padding: 46px 44px; }
 .advisor-copy h2 { font-size: clamp(26px, 3.2vw, 36px); margin: 16px 0 6px; }
@@ -663,11 +709,17 @@ body.seo-map-on .seo-legend {
              leaving it here too would have made the two read as a stutter. Pill keeps the local
              signal only. -->
         <span class="label reveal">Kansas City, MO</span>
-        <!-- Flat and keyword-bearing on purpose — it mirrors the <title> tag and the schema's
-             FinancialService description, so reader and crawler are told the same thing in the same
-             place. The voice lives in .hero-sub below, not here. This is Windle's hero structure:
-             a generic headline carrying the category, a subline carrying the personality. -->
-        <h1 class="reveal" data-seo="H1 · relevance signal — carries the primary keyword" data-seo-status="present">Fee-only fiduciary<br><span class="hl">wealth management</span></h1>
+        <!-- Keyword-bearing first line, process language in the highlight. Per Chase,
+             2026-08-11: he wanted the hero to sound like his own standard rather than a category
+             label, and "one disciplined plan" is his phrasing — about.html has "one disciplined
+             and intentional plan."
+             "Fiduciary" left the H1 to make room and is NOT lost: it is in the meta description,
+             in the trust row immediately below, and in the schema's FinancialService description.
+             (It was also in the <title> until 2026-08-11, when that had to come down from 81 to
+             57 characters to stop Google truncating it.) The primary keyword phrase "fee-only
+             wealth management" is still here. Do not stack the dropped adjective back on — four
+             adjectives ahead of the noun reads as keyword stuffing to both people and crawlers. -->
+        <h1 class="reveal" data-seo="H1 · relevance signal — carries the primary keyword" data-seo-status="present">Fee-only wealth management,<br><span class="hl">one disciplined plan</span></h1>
         <!-- Chase's own standard, derived from about.html: "success is defined by seeing clients
              become more educated, more confident, and more intentional." Makes comprehension the
              measure rather than performance, which is why it asserts nothing the advertising rules
@@ -675,12 +727,15 @@ body.seo-map-on .seo-legend {
         <h2 class="hero-sub reveal">Success is you understanding it.</h2>
         <!-- The "fee-only fiduciary practice in Kansas City" clause used to live here, because the
              H1 carried no keywords and docs/seo-sections.md rates this lede a keyword signal. Now
-             that the H1 states it outright and the pill carries the city, repeating it here read as
-             a stutter three deep. The keyword is not lost — it moved up, which is where that doc
-             wanted it. -->
-        <p class="lede reveal" data-seo="Hero lede · plain value prop, keywords now in the H1" data-seo-status="present">Investments, taxes, estate, insurance, business exit — usually five different
-        offices and five different opinions. Here it's one written plan, one advisor, one annual
-        advisory fee.</p>
+             that the H1 carries "fee-only wealth management" and the pill carries the city,
+             repeating it here read as a stutter three deep. The keyword is not lost — it moved up,
+             which is where that doc wanted it.
+             The list must stay a 1:1 map of the six service cards below — it read as five and
+             silently dropped financial planning. If a service is added or renamed down there,
+             this line and the "six different offices" count change with it. -->
+        <p class="lede reveal" data-seo="Hero lede · plain value prop, keywords now in the H1" data-seo-status="present">Investments, financial planning, taxes, estate, insurance, the
+        business — usually six different offices and six different opinions. Here it's one written
+        plan, one advisor, one annual advisory fee.</p>
         <div class="cta-row reveal">
           <a class="btn filled" href="#schedule">Book a free call <span class="arrow">→</span></a>
           <a class="btn tonal" href="#services">Explore services</a>
@@ -785,8 +840,16 @@ body.seo-map-on .seo-legend {
             </svg>
           </div>
           <h3>Tax planning</h3>
-          <p>Coordinating withdrawals, account location, and the timing of income so the plan is
-          read through a tax lens before decisions are made — not after they're filed.</p>
+          <!-- Per Chase, 2026-08-11: proactive handling of the highest-impact decisions, with the
+               complex positions named. "Asset location" (which account type holds which asset) is
+               the term of art and replaced "account location", which is not one.
+               The last clause is the scope boundary — he plans, he does not prepare returns. It is
+               phrased as a division of labor rather than a disclaimer on purpose; keep the meaning
+               if you touch the wording. -->
+          <p>The decisions that carry the most tax — asset location, when income lands, when gains
+          are realized, how long deferral is worth holding, what to do with concentrated or 401(k)
+          employer stock — worked through beforehand, not explained after. Your CPA files the
+          return; this comes first.</p>
         </article>
         <article class="svc reveal">
           <div class="icon">
@@ -795,8 +858,12 @@ body.seo-map-on .seo-legend {
             </svg>
           </div>
           <h3>Legacy &amp; estate planning</h3>
-          <p>Titling, beneficiaries, and legacy intentions reviewed alongside your attorney, so what
-          is written in the documents matches what is actually held in the accounts.</p>
+          <!-- Per Chase, 2026-08-11: the scope boundary — the attorney drafts, he aligns the
+               accounts to what was drafted. Carried by the closing clause as a division of labor
+               rather than a disclaimer; keep the meaning if you touch the wording. -->
+          <p>Titling, beneficiaries, and legacy intentions read alongside your attorney's documents
+          — because those documents only do their work if the accounts have been told about them.
+          The drafting is your attorney's; making the accounts agree with it is ours.</p>
         </article>
         <article class="svc reveal">
           <div class="icon">
@@ -829,7 +896,7 @@ body.seo-map-on .seo-legend {
       <div class="advisor-card reveal">
         <div class="portrait">
           <figure>
-            <img src="assets/chase-dalton-headshot.jpg" width="229" height="321"
+            <img src="assets/chase-dalton-headshot.jpg" width="800" height="1120"
                  alt="Chase Dalton, Owner and Advisor at Chase Wealth Management">
           </figure>
         </div>
@@ -881,7 +948,10 @@ body.seo-map-on .seo-legend {
         <div class="stp reveal">
           <div class="dot">2</div>
           <h3>Put it in writing</h3>
-          <p>We draft your written plan and model portfolio, then walk you through it line by line
+          <!-- "Build", not "draft". The estate card now assigns drafting to the client's attorney,
+               so using the same verb for what Chase does undoes that distinction two sections
+               later. The plan is written; the legal documents are not his. -->
+          <p>We build your written plan and model portfolio, then walk you through it line by line
           until every part of it makes sense to you.</p>
         </div>
         <div class="stp reveal">
@@ -968,9 +1038,16 @@ body.seo-map-on .seo-legend {
           we'll take the parts that put people to sleep.</p>
         </div>
       </div>
+      <!-- Verbatim from about.html's "How we work" chapter. This slot previously carried the
+           "alignment across every area of your life" line, which about.html also uses as a pull
+           quote — the same quote on both pages. about.html kept it, because there it sits inside
+           the chapter whose subject is alignment; this page took the success standard instead.
+           It states the same measure the hero-sub compresses into five words, in his full words
+           and with attribution. Compliance-safe for the same reason the hero-sub is: the yardstick
+           is comprehension, not performance. Keep it that way. -->
       <figure class="quote-card reveal">
-        <blockquote>Financial planning is about far more than investments alone. It is about
-        creating alignment across every area of your life.</blockquote>
+        <blockquote>Success is defined by seeing clients become more educated, more confident, and
+        more intentional with the resources they have been entrusted with.</blockquote>
         <figcaption><cite>Chase Dalton · Owner &amp; Advisor</cite></figcaption>
       </figure>
     </div>
