@@ -545,26 +545,38 @@ header {
 .panel-head { padding: 28px 32px 20px; }
 .panel-head p { margin: 0; font-size: 14.5px; color: var(--muted); }
 .sched-frame-pad { padding: 0 8px; }
-/* Calendly's JS embed. The height here is only the starting value: widget.js sets an inline
-   height on this element once the booking page reports its real size, and an inline style
-   beats this rule. That is also why the old breakpoint-specific heights are gone — the
-   resize handles narrow viewports better than a hardcoded guess did.
-   overflow: hidden clips the injected iframe to the rounded corner; the iframe is Calendly's
-   markup, not ours, so the radius cannot go on it directly. */
+/* Calendly's booking page in a plain cross-origin iframe, so the height is ours to maintain:
+   the frame cannot measure its own content and there is no resize message to listen for.
+   These heights are deliberately shorter than the content. Calendly's event-details header is
+   left visible so the firm's logo shows on the scheduler, which costs ~200px, and the decision
+   was to let the booking page scroll inside the frame rather than give the section that height
+   back. So: expect a scrollbar in there, and do not read one as a bug.
+   700px is Calendly's documented floor and the point below which the calendar stops being
+   usable rather than merely scrolled; 780px covers the taller stacked layout. Judge them with
+   a date selected — that appends the time-slot list and is the worst case. Both numbers are
+   for the *60-minute* event; re-check if the event type changes. */
+/* No overflow: hidden here. It was on the old wrapper div to clip widget.js's injected iframe
+   to the rounded corner; .sched-frame is the iframe itself now, so border-radius clips it
+   directly. Leaving it on risks suppressing the inner scrollbar, which is the one affordance
+   telling a visitor the booking page continues below the fold. */
 .sched-frame {
   display: block;
   width: 100%;
   min-width: 320px;
   height: 700px;
+  border: 0;
   border-radius: calc(var(--r-lg) - 8px);
-  overflow: hidden;
 }
+/* Calendly restacks below ~680px of iframe width. The page itself collapses to one column at
+   1240px, after which the scheduler runs full width — iframe width is viewport - 80, so that
+   threshold lands at a ~760px viewport. */
+@media (max-width: 760px) { .sched-frame { height: 780px; } }
 .sched-note { padding: 16px 32px 24px; margin: 0; font-size: 12.5px; line-height: 1.7; color: var(--muted); }
 .sched-note a { font-weight: 700; color: var(--body); text-decoration: underline; }
 .sched-note a:hover { color: var(--primary); }
 
 /* -- Form rail (dark) -- */
-/* Column stretches to the scheduler's height (the iframe sets it), so the panel is a flex
+/* Column stretches to the scheduler's height (.sched-frame sets it), so the panel is a flex
    column and the office block is pushed to the bottom edge. Otherwise the rail ends short and
    leaves dead space under the address. */
 .form-panel { background: var(--primary); color: #E8E8E8; padding: 30px 32px 34px; display: flex; flex-direction: column; }
@@ -626,51 +638,6 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s cubic-bezier(.2,.7,.3,1), transform 0.7s cubic-bezier(.2,.7,.3,1); }
 .reveal.in { opacity: 1; transform: none; }
 
-/* ============================================================
-   SEO MAP OVERLAY — dev/review tool. Remove this whole block (plus the [data-seo]
-   attrs, the .seo-legend markup, and the toggle <script>) for the production build.
-   Adds no layout when off. Palette-independent — hardcoded colors and system fonts,
-   so it stays legible against the strictly black-and-white page and is drop-in
-   identical to the variant in mockups/modernist.html. See docs/seo-sections.md.
-   ============================================================ */
-.seo-toggle {
-  position: fixed; top: 16px; right: 16px; z-index: 10000;
-  font: 700 12px/1 -apple-system, "Segoe UI", Arial, sans-serif;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  padding: 10px 16px; border: 2px solid #111; border-radius: 999px;
-  background: #fff; color: #111; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.18);
-}
-.seo-toggle:hover { background: #111; color: #fff; }
-body.seo-map-on [data-seo] { position: relative; outline: 2px dashed var(--seo-c, #16A34A); outline-offset: 6px; }
-body.seo-map-on [data-seo]::before {
-  content: attr(data-seo);
-  position: absolute; top: 0; left: 0; transform: translateY(-100%);
-  background: var(--seo-c, #16A34A); color: #fff;
-  font: 700 11px/1.4 -apple-system, "Segoe UI", Arial, sans-serif;
-  letter-spacing: 0.03em; padding: 3px 8px; white-space: nowrap;
-  z-index: 9999; pointer-events: none; max-width: 92vw; overflow: hidden; text-overflow: ellipsis;
-}
-body.seo-map-on [data-seo-status="present"] { --seo-c: #16A34A; }
-body.seo-map-on [data-seo-status="partial"] { --seo-c: #EA580C; }
-body.seo-map-on [data-seo-status="missing"] { --seo-c: #DC2626; }
-.seo-legend { display: none; }
-body.seo-map-on .seo-legend {
-  display: block; position: fixed; left: 16px; bottom: 16px; z-index: 10000;
-  width: 330px; max-width: calc(100vw - 32px);
-  background: #fff; color: #111; border: 2px solid #111; border-radius: 10px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
-  padding: 16px 18px; font: 400 12.5px/1.55 -apple-system, "Segoe UI", Arial, sans-serif;
-  max-height: 70vh; overflow: auto;
-}
-.seo-legend h4 { font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 8px; }
-.seo-legend .key { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
-.seo-legend .sw { width: 12px; height: 12px; flex: none; border-radius: 2px; }
-.seo-legend .sw.p { background: #16A34A; } .seo-legend .sw.pa { background: #EA580C; } .seo-legend .sw.m { background: #DC2626; }
-.seo-legend .gaps { margin: 10px 0 0; padding: 10px 0 0; border-top: 1px solid #ddd; }
-.seo-legend ul { margin: 6px 0 0; padding-left: 18px; }
-.seo-legend li { margin-bottom: 4px; }
-@media (max-width: 560px) { .seo-legend { display: none !important; } }
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
@@ -719,7 +686,7 @@ body.seo-map-on .seo-legend {
              57 characters to stop Google truncating it.) The primary keyword phrase "fee-only
              wealth management" is still here. Do not stack the dropped adjective back on — four
              adjectives ahead of the noun reads as keyword stuffing to both people and crawlers. -->
-        <h1 class="reveal" data-seo="H1 · relevance signal — carries the primary keyword" data-seo-status="present">Fee-only wealth management,<br><span class="hl">one disciplined plan</span></h1>
+        <h1 class="reveal">Fee-only wealth management,<br><span class="hl">one disciplined plan</span></h1>
         <!-- Chase's own standard, derived from about.html: "success is defined by seeing clients
              become more educated, more confident, and more intentional." Makes comprehension the
              measure rather than performance, which is why it asserts nothing the advertising rules
@@ -733,7 +700,7 @@ body.seo-map-on .seo-legend {
              The list must stay a 1:1 map of the six service cards below — it read as five and
              silently dropped financial planning. If a service is added or renamed down there,
              this line and the "six different offices" count change with it. -->
-        <p class="lede reveal" data-seo="Hero lede · plain value prop, keywords now in the H1" data-seo-status="present">Investments, financial planning, taxes, estate, insurance, the
+        <p class="lede reveal">Investments, financial planning, taxes, estate, insurance, the
         business — usually six different offices and six different opinions. Here it's one written
         plan, one advisor, one annual advisory fee.</p>
         <div class="cta-row reveal">
@@ -800,7 +767,7 @@ body.seo-map-on .seo-legend {
   </div>
 
   <!-- Services -->
-  <section class="services" id="services" data-seo="Service keywords · H2/H3 + hasOfferCatalog schema" data-seo-status="present">
+  <section class="services" id="services">
     <div class="wrap">
       <div class="sec-head">
         <!-- Pill was "What we do", which made the H2 below read as a stutter. "Services" also
@@ -891,7 +858,7 @@ body.seo-map-on .seo-legend {
   </section>
 
   <!-- Advisor -->
-  <section class="advisor" id="advisor" data-seo="Advisor bio · E-E-A-T" data-seo-status="present">
+  <section class="advisor" id="advisor">
     <div class="wrap">
       <div class="advisor-card reveal">
         <div class="portrait">
@@ -930,7 +897,7 @@ body.seo-map-on .seo-legend {
   </section>
 
   <!-- Process -->
-  <section class="process" id="process" data-seo="Process · E-E-A-T expertise (§1)" data-seo-status="present">
+  <section class="process" id="process">
     <div class="wrap">
       <div class="sec-head" style="text-align:center; margin-inline:auto;">
         <span class="label reveal">How it works</span>
@@ -975,7 +942,7 @@ body.seo-map-on .seo-legend {
   </section>
 
   <!-- Fee schedule -->
-  <section class="fees" id="fees" data-seo="Fee transparency · real numbers published" data-seo-status="present">
+  <section class="fees" id="fees">
     <div class="wrap">
       <div class="sec-head" style="text-align:center; margin-inline:auto;">
         <span class="label reveal">Fees</span>
@@ -1008,7 +975,7 @@ body.seo-map-on .seo-legend {
   </section>
 
   <!-- Philosophy -->
-  <section class="philosophy" data-seo="Social proof slot · first-person quote, no Review schema" data-seo-status="partial">
+  <section class="philosophy">
     <div class="wrap">
       <!-- Stance row. Three declaratives, ordered serious → serious → light; the self-deprecating
            one goes last on purpose, because leading with it spends the authority before it's earned.
@@ -1054,7 +1021,7 @@ body.seo-map-on .seo-legend {
   </section>
 
   <!-- Get started: scheduler and form side by side -->
-  <section class="connect" id="schedule" data-seo="Conversion · Calendly live, form submits nowhere" data-seo-status="partial">
+  <section class="connect" id="schedule">
     <div class="wrap-wide">
       <div class="sec-head" style="text-align:center; margin-inline:auto;">
         <span class="label reveal">Get started</span>
@@ -1067,21 +1034,32 @@ body.seo-map-on .seo-legend {
         <div class="panel sched-panel reveal">
           <div class="panel-head">
             <h3>Pick a time</h3>
-            <p>Thirty minutes with Chase. Nothing is sold on this call — it is a conversation about
+            <p>An hour with Chase. Nothing is sold on this call — it is a conversation about
             where you are and what questions you are facing.</p>
           </div>
           <div class="sched-frame-pad">
-            <!-- Calendly's JS inline embed. widget.js injects the iframe into this div and,
-                 because of data-resize, sizes the div to the booking page's real content —
-                 which is the whole reason for the dependency. The height below is only the
-                 pre-resize starting value.
-                 The firm's real event type is cdalton-chasewm/30min. Keep the query string:
-                 the three color params map Calendly onto this page's black-and-white palette.
-                 Do NOT add a `month=` param — it pins the calendar to a fixed month instead
-                 of opening on the current one. -->
-            <div class="calendly-inline-widget sched-frame"
-                 data-url="https://calendly.com/cdalton-chasewm/30min?hide_gdpr_banner=1&amp;background_color=ffffff&amp;text_color=3a3a3a&amp;primary_color=111111"
-                 data-resize="true"></div>
+            <!-- Calendly's plain iframe embed — no widget.js, so the page stays self-contained.
+                 The height is fixed in CSS and has to be maintained by hand: a cross-origin
+                 iframe cannot size itself, and Calendly's booking page does not post the
+                 `calendly.page_height` message this account would need for auto-sizing.
+                 The slug is still `30min` — that is the real, live event type, even though it
+                 is configured for 60 minutes. Renaming it here 404s unless it is renamed in
+                 Calendly first.
+                 Keep the query string. The three color params map Calendly onto this page's
+                 black-and-white palette (verified: grey text, black month chevrons, not
+                 Calendly's default blue).
+                 `hide_event_type_details=1` is deliberately NOT set. It would drop Calendly's
+                 header block and about 200px with it, but that block is where the firm's logo
+                 renders, and per Chase the logo on the scheduler is worth more than the height.
+                 The trade was made knowingly: the frame is shorter than its content and the
+                 booking page scrolls inside it. Do not "fix" that by re-adding the param.
+                 Do NOT add a `month=` param either — it pins the calendar to a fixed month
+                 instead of opening on the current one. Calendly appends its own once the frame
+                 is live; that is fine, it is the initial src that matters. -->
+            <iframe class="sched-frame"
+                    title="Select a date and time — Calendly"
+                    loading="lazy"
+                    src="https://calendly.com/cdalton-chasewm/30min?hide_gdpr_banner=1&amp;background_color=ffffff&amp;text_color=3a3a3a&amp;primary_color=111111"></iframe>
           </div>
           <p class="sched-note">Calendar not loading? Some ad blockers stop it. Book at
           <a href="https://calendly.com/cdalton-chasewm/30min" rel="noopener">calendly.com</a>
@@ -1144,7 +1122,7 @@ body.seo-map-on .seo-legend {
       <div>
         <img class="logo-img" src="assets/Light-Email-Logo.png" width="400" height="200" alt="Chase Wealth Management">
         <p class="tagline">Advice on your side of the table.</p>
-        <address data-seo="NAP · identical across page, footers, schema" data-seo-status="present">
+        <address>
           1201 NW Briarcliff Pkwy, Suite 201<br>
           Kansas City, MO 64116<br>
           <a href="tel:+18165884681">(816) 588-4681</a>
@@ -1160,7 +1138,7 @@ body.seo-map-on .seo-legend {
         <a href="https://adviserinfo.sec.gov/" rel="noopener">Form ADV</a>
       </nav>
     </div>
-    <p class="legal" data-seo="RIA disclosure · Form ADV generic, no Privacy/Terms" data-seo-status="partial">Chase Wealth Management is a state-registered investment adviser. Registration
+    <p class="legal">Chase Wealth Management is a state-registered investment adviser. Registration
     does not imply any level of skill or training, nor does it constitute an endorsement by any
     securities regulator. Advisory services are offered only to residents of states in which the
     firm is registered or exempt from registration. Nothing on this page is an offer to buy or sell
@@ -1169,13 +1147,6 @@ body.seo-map-on .seo-legend {
     © 2026 Chase Wealth Management. All rights reserved.</p>
   </div>
 </footer>
-
-<!-- Calendly inline widget loader. This is the page's only non-font external dependency and
-     the one place it departs from the self-contained-single-file convention — deliberately,
-     as of 2026-08-11, to get data-resize auto-sizing. It is now load-bearing: without it the
-     #schedule panel renders an empty div, and the ad-blocker fallback line in .sched-note is
-     the only remaining path to booking. Do not remove it as dead weight. -->
-<script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
 <script>
 // Reveal on scroll
@@ -1200,46 +1171,5 @@ document.querySelectorAll('.btn').forEach(btn => {
 });
 </script>
 
-<!-- SEO MAP OVERLAY — dev/review tool. Remove this aside and the script below for production. -->
-<aside class="seo-legend" aria-hidden="true">
-  <h4>SEO Map — Key</h4>
-  <div class="key"><span class="sw p"></span> Present — signal delivered</div>
-  <div class="key"><span class="sw pa"></span> Partial — needs strengthening</div>
-  <div class="key"><span class="sw m"></span> Missing — not on the page yet</div>
-  <div class="gaps">
-    <strong>Gaps (no home on the page):</strong>
-    <ul>
-      <li>FAQ block + <code>FAQPage</code> schema — highest-value item left</li>
-      <li>Testimonials + <code>Review</code>/<code>AggregateRating</code> — blocked, no
-      disclosure-compliant corpus exists</li>
-      <li>Privacy Policy and Terms pages</li>
-      <li>Case studies / client stories</li>
-      <li><code>robots.txt</code> allowing AI crawlers</li>
-    </ul>
-  </div>
-  <div class="gaps">
-    <strong>On the page but not working:</strong>
-    <ul>
-      <li>Contact form submits nowhere — discards the lead, then claims someone will reach out</li>
-      <li>Calendly embed never verified against the live event type</li>
-      <li>Form ADV links to generic <code>adviserinfo.sec.gov</code>, pending a CRD</li>
-      <li>JSON-LD never validated with Google's Rich Results Test</li>
-    </ul>
-  </div>
-</aside>
-<script>
-/* SEO MAP OVERLAY — dev/review tool. Remove for production. */
-(function () {
-  var btn = document.createElement('button');
-  btn.className = 'seo-toggle';
-  btn.type = 'button';
-  btn.textContent = 'Show SEO map';
-  btn.addEventListener('click', function () {
-    var on = document.body.classList.toggle('seo-map-on');
-    btn.textContent = on ? 'Hide SEO map' : 'Show SEO map';
-  });
-  document.body.appendChild(btn);
-})();
-</script>
 </body>
 </html>

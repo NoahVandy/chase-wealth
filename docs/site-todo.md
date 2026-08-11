@@ -169,14 +169,34 @@ The section uses `.wrap-wide` (1320px) rather than the site's standard 1120px `.
 scheduler column has to stay above Calendly's ~680px stacking threshold while the form rail keeps
 a usable 400px. Below a 1240px viewport the two columns stack; that is the only place they do.
 
-**As of 2026-08-11 this is the `widget.js` JS embed, not the plain iframe.** The convention was
-given up on purpose: a cross-origin iframe cannot size itself, so its height was a hardcoded
-guess at Calendly's layout. `700px` (their documented floor) scrolled on the real `30min` event,
-and any fixed number would have needed re-tuning every time the event's copy changed.
-`data-resize="true"` on the `.calendly-inline-widget` div is what performs the resize —
-`widget.js` on its own does not, which is easy to get wrong. Calendly's own caveats: one
-auto-resizing embed per page maximum, and avoid dropdown questions in the booking form, which
-the resize handles badly. `index.html` is now the only file that loads external JS.
+**As of 2026-08-11 this is a plain `<iframe>` again.** It was moved to Calendly's `widget.js`
+JS embed earlier the same day to get `data-resize` auto-sizing, then moved straight back: the
+resize never fired. On the live site the booking page sent no `calendly.page_height` message in
+an 8-second window — `embed_domain` and `embed_type` were both correct on the injected `src`, so
+the embed was wired right and Calendly simply wasn't answering. Without that message `widget.js`
+never sets a height, the div stays at its CSS value, and the calendar clips exactly as a fixed
+height would. The dependency was buying nothing, so the self-contained-single-file convention
+holds again and no file loads external JS.
+
+The cost is that `.sched-frame`'s height is hand-maintained: `700px`, with a `max-width: 760px`
+query taking it to `780px` for Calendly's stacked layout. Both are for the **60-minute** event.
+
+The embed also runs `hide_event_type_details=1`, which drops Calendly's header block — their
+logo, "Chase Dalton", "60 Minute Meeting", the duration and the office address. All of it was
+already on the page in the panel head and the form rail, so it read as duplication, and it was
+worth roughly 200px of frame height. What remains measures ~575px on first paint.
+
+The firm's logo is wanted on the scheduler, so it is back — but as `.sched-logo` in the panel
+head, from `assets/Light-Email-Logo.png`, rather than by un-hiding Calendly's header. That keeps
+the height, puts the mark in this page's palette and spacing, and costs ~40px instead of ~200px.
+Its `alt` is empty by design; the app bar and footer already announce the firm name. The heights
+above are set for the **date-selected** state instead, where the time-slot list appears below
+the calendar — that is the state that overflows, and `700px` is Calendly's documented floor for
+it. Click a date before judging whether a height is right.
+
+The three color params do work, contrary to an earlier note here: verified grey text and black
+month chevrons rather than Calendly's default blue. Branding beyond those params (the "POWERED
+BY Calendly" ribbon) is a plan-level feature and not reachable from the embed URL.
 
 - [x] **Swap the placeholder Calendly URL.** Done — both occurrences in `index.html` (the iframe
   `src` and the link in `.sched-note`) now point at `cdalton-chasewm/30min`. The query string
@@ -184,19 +204,20 @@ the resize handles badly. `index.html` is now the only file that loads external 
   arrived with a `month=2026-08` param, dropped deliberately: it pins the calendar to a fixed
   month rather than opening on the current one.
 - [ ] **Confirm `hide_gdpr_banner=1` actually takes effect.** Calendly documents cookie-banner
-  hiding as a JS-embed capability, so it has a real chance of working now that the page is on
-  the JS embed — it likely never did on the raw iframe. If the banner still shows inside the
-  card, decide whether to live with it.
-- [ ] **Confirm the auto-resize actually fires.** The hardcoded heights are gone; `700px` is now
-  just the pre-resize starting value. If `widget.js` is blocked or `data-resize` misbehaves, the
-  panel sits at 700px and scrolls exactly as before — same symptom, different cause. Check
-  desktop and narrow viewports.
-- [ ] **Check the injected iframe's accessible name.** The old markup set
-  `title="Schedule an introductory call with Chase Dalton"` on the iframe; that iframe is now
-  Calendly's markup, so whatever `title` they set is what screen readers announce.
-- [ ] **The `.sched-note` fallback is now load-bearing.** With the JS embed, a blocked
-  `widget.js` leaves an empty div rather than a broken iframe — the "Calendar not loading?" line
-  and its direct calendly.com link are the only remaining path to booking. Do not trim that copy.
+  hiding as a JS-embed capability, so on the plain iframe it may well do nothing. If the banner
+  shows inside the card, decide whether to live with it or to accept `widget.js` back for that
+  one reason.
+- [ ] **Eyeball the two fixed heights, with a date selected.** `700px` desktop / `780px` below
+  760px. The opening view fits easily; the time-slot list that appears after clicking a date is
+  what overflows. Too short clips it, too tall leaves dead white space above `.sched-note`.
+- [ ] **The event slug no longer matches its duration.** `cdalton-chasewm/30min` is configured
+  in Calendly as a **60 Minute Meeting**, and both pages' copy now says an hour. The slug is
+  left alone because renaming it in the markup 404s unless it is renamed in Calendly first.
+  Worth tidying on the Calendly side so the URL stops lying.
+- [ ] **The `.sched-note` fallback still matters.** An ad blocker that blocks calendly.com now
+  leaves a broken iframe rather than an empty div, but either way the "Calendar not loading?"
+  line and its direct calendly.com link are the only remaining path to booking. Do not trim
+  that copy.
 - [ ] **The contact form still submits nowhere.** `onsubmit` calls `preventDefault()` and
   fires an `alert()` claiming someone will reach out; the data is discarded. This was survivable
   when it was the page's only CTA and nobody was driving traffic. It is worse now — the
@@ -209,7 +230,7 @@ the resize handles badly. `index.html` is now the only file that loads external 
   the contact form gets is a second processor with the same problem.
 
 **Compliance:** the scheduler itself asserts nothing, so it is outside the SEC/FINRA
-advertising-rule gate. The section copy around it is not — "Thirty minutes, at no cost" and
+advertising-rule gate. The section copy around it is not — "An hour with Chase" and
 "Nothing is sold on this call" are marketing claims and need the same review as the rest of the
 page. Anything the event type's own description says on Calendly is published marketing copy too,
 and it lives outside this repo where the review step cannot see it.
