@@ -64,6 +64,7 @@
       "@id": "https://www.chasewealthmanagement.com/about.html#chase-dalton",
       "name": "Chase Dalton",
       "jobTitle": "Owner and Advisor",
+      "image": "https://www.chasewealthmanagement.com/assets/chase-dalton-headshot.jpg",
       "worksFor": { "@id": "https://www.chasewealthmanagement.com/#firm" },
       "alumniOf": [
         { "@type": "CollegeOrUniversity", "name": "University of Missouri–Kansas City" },
@@ -305,7 +306,10 @@ header {
 /* ---------- Advisor ---------- */
 .advisor { padding: 20px 0 80px; }
 .advisor-card {
-  display: grid; grid-template-columns: 0.8fr 1.2fr;
+  /* Fixed portrait rail rather than a fraction: the headshot is low-resolution,
+     so the panel is sized to the photo instead of the photo being stretched to
+     fill a proportional panel. */
+  display: grid; grid-template-columns: 364px 1fr;
   background: var(--surface);
   border-radius: var(--r-lg);
   box-shadow: var(--e2);
@@ -315,18 +319,19 @@ header {
 .portrait {
   background: var(--surface-tonal);
   display: grid; place-items: center;
-  padding: 40px 24px;
-  min-height: 320px;
+  padding: 30px;
 }
 .portrait figure { margin: 0; text-align: center; }
-.monogram {
-  width: 148px; height: 148px; border-radius: 50%;
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center; margin: 0 auto;
-  font-size: 46px; font-weight: 800; letter-spacing: 0.04em;
+/* The headshot source is only 229×321, so max-width is the ceiling on how far it
+   gets upscaled — 304px in the rail is about 1.33×, which is as far as this file
+   goes before it reads as soft. If the photographer's full-resolution original
+   arrives, drop the cap, let it fill the rail, and update the <img> width/height. */
+.portrait img {
+  display: block; margin: 0 auto;
+  width: 100%; max-width: 320px; height: auto;
+  border-radius: var(--r-md);
   box-shadow: var(--e2);
 }
-.portrait figcaption { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 18px; }
 .advisor-copy { padding: 46px 44px; }
 .advisor-copy h2 { font-size: clamp(26px, 3.2vw, 36px); margin: 16px 0 6px; }
 .advisor-copy .role { font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 20px; }
@@ -821,14 +826,13 @@ body.seo-map-on .seo-legend {
   </section>
 
   <!-- Advisor -->
-  <section class="advisor" id="advisor" data-seo="Advisor bio · E-E-A-T — photo still missing" data-seo-status="partial">
+  <section class="advisor" id="advisor" data-seo="Advisor bio · E-E-A-T" data-seo-status="present">
     <div class="wrap">
       <div class="advisor-card reveal">
         <div class="portrait">
-          <!-- Placeholder: replace the monogram block with Chase's headshot when the photo is available. -->
           <figure>
-            <div class="monogram" aria-hidden="true">CD</div>
-            <figcaption>Photograph to come</figcaption>
+            <img src="assets/chase-dalton-headshot.jpg" width="229" height="321"
+                 alt="Chase Dalton, Owner and Advisor at Chase Wealth Management">
           </figure>
         </div>
         <div class="advisor-copy">
@@ -975,7 +979,7 @@ body.seo-map-on .seo-legend {
   </section>
 
   <!-- Get started: scheduler and form side by side -->
-  <section class="connect" id="schedule" data-seo="Conversion · form submits nowhere, Calendly placeholder" data-seo-status="partial">
+  <section class="connect" id="schedule" data-seo="Conversion · Calendly live, form submits nowhere" data-seo-status="partial">
     <div class="wrap-wide">
       <div class="sec-head" style="text-align:center; margin-inline:auto;">
         <span class="label reveal">Get started</span>
@@ -992,17 +996,19 @@ body.seo-map-on .seo-legend {
             where you are and what questions you are facing.</p>
           </div>
           <div class="sched-frame-pad">
-            <!-- TODO: swap the placeholder slug for the firm's real Calendly event-type URL.
-                 Keep the query string: the three color params map Calendly onto this page's
-                 black-and-white palette. hide_gdpr_banner is included but may be ignored —
-                 Calendly documents banner-hiding as a JS-embed feature; confirm on the real link. -->
+            <!-- The firm's real event type: cdalton-chasewm/30min. Keep the query string — the
+                 three color params map Calendly onto this page's black-and-white palette.
+                 hide_gdpr_banner is included but may be ignored; Calendly documents
+                 banner-hiding as a JS-embed feature, so confirm it against the live embed.
+                 Do NOT add a `month=` param: it pins the calendar to a fixed month instead of
+                 opening on the current one. -->
             <iframe class="sched-frame"
                     title="Schedule an introductory call with Chase Dalton"
                     loading="lazy"
-                    src="https://calendly.com/chase-wealth-placeholder/intro-call?hide_gdpr_banner=1&amp;background_color=ffffff&amp;text_color=3a3a3a&amp;primary_color=111111"></iframe>
+                    src="https://calendly.com/cdalton-chasewm/30min?hide_gdpr_banner=1&amp;background_color=ffffff&amp;text_color=3a3a3a&amp;primary_color=111111"></iframe>
           </div>
           <p class="sched-note">Calendar not loading? Some ad blockers stop it. Book at
-          <a href="https://calendly.com/chase-wealth-placeholder/intro-call" rel="noopener">calendly.com</a>
+          <a href="https://calendly.com/cdalton-chasewm/30min" rel="noopener">calendly.com</a>
           or call <a href="tel:+18165884681">(816) 588-4681</a>. Scheduling is handled by Calendly —
           the name, email, and any notes you enter there go to Calendly, not through this site.</p>
         </div>
@@ -1136,7 +1142,7 @@ document.querySelectorAll('.btn').forEach(btn => {
     <strong>On the page but not working:</strong>
     <ul>
       <li>Contact form submits nowhere — discards the lead, then claims someone will reach out</li>
-      <li>Calendly points at the placeholder slug</li>
+      <li>Calendly embed never verified against the live event type</li>
       <li>Form ADV links to generic <code>adviserinfo.sec.gov</code>, pending a CRD</li>
       <li>JSON-LD never validated with Google's Rich Results Test</li>
     </ul>

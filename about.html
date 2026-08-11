@@ -33,6 +33,7 @@
     "name": "Chase Dalton",
     "jobTitle": "Owner and Advisor",
     "description": "Owner and advisor of Chase Wealth Management, a fee-only fiduciary financial planning firm in Kansas City, Missouri.",
+    "image": "https://www.chasewealthmanagement.com/assets/chase-dalton-headshot.jpg",
     "worksFor": {
       "@type": "FinancialService",
       "@id": "https://www.chasewealthmanagement.com/#firm",
@@ -193,18 +194,49 @@ header {
   padding: 20px;
 }
 .portrait-card figure { margin: 0; }
+/* The photo sets the frame's height at its own ratio — no fixed aspect-ratio, so
+   nothing is cropped. The max-width holds the upscale of a 320px-wide source to
+   ~1.25×; without it the single-column layout below 900px would blow it up to the
+   full card width. Re-tune it if the photo here is ever swapped again. */
 .portrait-frame {
   background: var(--surface-tonal);
   border-radius: var(--r-md);
-  aspect-ratio: 4 / 5;
-  display: grid; place-items: center;
+  overflow: hidden;
+  max-width: 400px;
+  margin: 0 auto;
 }
-.monogram {
-  width: 150px; height: 150px; border-radius: 50%;
-  background: var(--primary); color: var(--on-primary);
-  display: grid; place-items: center;
-  font-size: 48px; font-weight: 800; letter-spacing: 0.04em;
-  box-shadow: var(--e2);
+.portrait-frame img { display: block; width: 100%; height: auto; }
+
+/* A chapter that runs its prose beside a photo instead of above it. The h2 spans
+   both columns so its rule still crosses the full chapter width. */
+.chapter-split {
+  display: grid; grid-template-columns: 1fr 268px;
+  column-gap: 48px; row-gap: 0; align-items: start;
+}
+/* row-gap stays 0 so the h2's own margin-bottom keeps setting the space under the
+   rule, matching every other chapter. */
+.chapter-split h2 { grid-column: 1 / -1; }
+@media (max-width: 700px) {
+  .chapter-split { grid-template-columns: 1fr; row-gap: 32px; }
+  .chapter-split .polaroid { justify-self: center; }
+}
+
+/* Polaroid. The geometry does the work — even white border with a deep bottom
+   band — so no novelty font is needed and the page keeps Manrope as its only
+   typeface. Deliberately untilted. At 268px the 428px-wide source is downscaled,
+   not stretched. */
+.polaroid {
+  margin: 0;
+  width: 268px;
+  background: #FFFFFF;
+  padding: 14px 14px 0;
+  box-shadow: var(--e3);
+}
+.polaroid img { display: block; width: 100%; height: auto; }
+.polaroid figcaption {
+  text-align: center;
+  padding: 16px 6px 20px;
+  font-size: 14px; font-weight: 600; color: var(--muted);
 }
 .portrait-card figcaption {
   font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
@@ -368,12 +400,12 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
         <a class="btn filled reveal" href="index.html#schedule">Book a free call <span class="arrow">→</span></a>
       </div>
       <div class="portrait-card reveal">
-        <!-- Placeholder: swap the monogram for Chase's headshot when the photo is available. -->
         <figure>
           <div class="portrait-frame">
-            <div class="monogram" aria-hidden="true">CD</div>
+            <img src="assets/chase-dalton-ballpark.jpg" width="320" height="240"
+                 alt="Chase Dalton, right, in a Kansas City Royals jersey at a ballpark, beside
+                      oversized Babe Ruth and Mickey Mantle figures">
           </div>
-          <figcaption>Photograph to come</figcaption>
         </figure>
       </div>
     </div>
@@ -486,12 +518,18 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
           </figure>
         </article>
 
-        <article class="chapter reveal" id="outside">
+        <article class="chapter chapter-split reveal" id="outside">
           <h2>Outside the office</h2>
           <p>When I am not in the office, I enjoy spending time with my amazing wife and our
           families. I also have a passion for Northland Christian School and serving in youth
           ministry at my church. In my free time, I enjoy faith, family, fitness, and all things
           motorsports.</p>
+
+          <figure class="polaroid">
+            <img src="assets/chase-dalton-wedding.jpg" width="428" height="640"
+                 alt="Chase Dalton and his wife on their wedding day">
+            <figcaption>The Daltons, 2025</figcaption>
+          </figure>
         </article>
 
       </div>

@@ -129,7 +129,7 @@ The concept files (`art-deco`, `neo-geo`, `neumorphic`, `modernist`, `neo-modern
 | Footer links | 🟠 About/Services/How it works/Contact/Form ADV present; Form ADV points at generic `adviserinfo.sec.gov` pending a CRD, and Privacy/Terms don't exist |
 | JSON-LD | ✅ `FinancialService` + `Person` on `index.html`; `ProfilePage`/`Person` on `about.html`. `hasOfferCatalog` lists the six real services. Not yet validated with Google's Rich Results Test. |
 | NAP | ✅ identical in the contact card, both footers, and both schema blocks |
-| Scheduling | 🟠 Calendly iframe live in `#schedule` on `index.html`, beside the form — but pointed at a **placeholder URL**, see below |
+| Scheduling | 🟠 Calendly iframe live in `#schedule` on `index.html`, beside the form, pointed at the firm's real event type (`cdalton-chasewm/30min`) — embed height and banner params still unverified against it, see below |
 | Contact form | ❌ renders and validates, but submits nowhere — see below |
 
 **Do not** add an AUM figure or an aggregate rating to the shipped pages — the client prohibits publishing AUM, and there is no review corpus to aggregate. Note that publishing the *fee schedule* (a rate applied to a client's own portfolio) is not the same thing as publishing firm AUM, and is explicitly wanted.
@@ -157,9 +157,11 @@ keeps the no-external-JS rule. The cost is no prefill, no `event_scheduled` trac
 auto-resize, and no guarantee the banner-hiding params apply. Reversing that decision means
 adding `widget.js` and giving up the convention; don't do it by accident.
 
-- [ ] **Swap the placeholder Calendly URL.** Two occurrences in `index.html` — the iframe
-  `src` and the link in `.sched-note`. The slug is `chase-wealth-placeholder/intro-call`.
-  Keep the query string (`hide_gdpr_banner=1` plus the three color params) on the `src`.
+- [x] **Swap the placeholder Calendly URL.** Done — both occurrences in `index.html` (the iframe
+  `src` and the link in `.sched-note`) now point at `cdalton-chasewm/30min`. The query string
+  (`hide_gdpr_banner=1` plus the three color params) is kept on the `src`. The client's link
+  arrived with a `month=2026-08` param, dropped deliberately: it pins the calendar to a fixed
+  month rather than opening on the current one.
 - [ ] **Confirm `hide_gdpr_banner=1` actually takes effect.** Calendly's help page lists
   cookie-banner hiding as a JS-embed capability, so the param may be ignored on a raw iframe.
   If it is, the embed shows Calendly's own cookie banner inside the card — decide then whether
