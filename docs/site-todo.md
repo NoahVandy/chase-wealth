@@ -152,25 +152,34 @@ The section uses `.wrap-wide` (1320px) rather than the site's standard 1120px `.
 scheduler column has to stay above Calendly's ~680px stacking threshold while the form rail keeps
 a usable 400px. Below a 1240px viewport the two columns stack; that is the only place they do.
 
-It is the **plain-iframe embed**, not Calendly's `widget.js` — deliberately, so `index.html`
-keeps the no-external-JS rule. The cost is no prefill, no `event_scheduled` tracking, no
-auto-resize, and no guarantee the banner-hiding params apply. Reversing that decision means
-adding `widget.js` and giving up the convention; don't do it by accident.
+**As of 2026-08-11 this is the `widget.js` JS embed, not the plain iframe.** The convention was
+given up on purpose: a cross-origin iframe cannot size itself, so its height was a hardcoded
+guess at Calendly's layout. `700px` (their documented floor) scrolled on the real `30min` event,
+and any fixed number would have needed re-tuning every time the event's copy changed.
+`data-resize="true"` on the `.calendly-inline-widget` div is what performs the resize —
+`widget.js` on its own does not, which is easy to get wrong. Calendly's own caveats: one
+auto-resizing embed per page maximum, and avoid dropdown questions in the booking form, which
+the resize handles badly. `index.html` is now the only file that loads external JS.
 
 - [x] **Swap the placeholder Calendly URL.** Done — both occurrences in `index.html` (the iframe
   `src` and the link in `.sched-note`) now point at `cdalton-chasewm/30min`. The query string
   (`hide_gdpr_banner=1` plus the three color params) is kept on the `src`. The client's link
   arrived with a `month=2026-08` param, dropped deliberately: it pins the calendar to a fixed
   month rather than opening on the current one.
-- [ ] **Confirm `hide_gdpr_banner=1` actually takes effect.** Calendly's help page lists
-  cookie-banner hiding as a JS-embed capability, so the param may be ignored on a raw iframe.
-  If it is, the embed shows Calendly's own cookie banner inside the card — decide then whether
-  to live with it or move to `widget.js`.
-- [ ] **Confirm the embed height against the real event type.** It is hardcoded — `700px`
-  desktop, `1010px` under 680px wide — because the iframe cannot auto-size. Both numbers came
-  from Calendly's docs, not from measurement. An event type with a long description or extra
-  intake questions will scroll inside the iframe or leave dead space. Check both breakpoints
-  once the real URL is in.
+- [ ] **Confirm `hide_gdpr_banner=1` actually takes effect.** Calendly documents cookie-banner
+  hiding as a JS-embed capability, so it has a real chance of working now that the page is on
+  the JS embed — it likely never did on the raw iframe. If the banner still shows inside the
+  card, decide whether to live with it.
+- [ ] **Confirm the auto-resize actually fires.** The hardcoded heights are gone; `700px` is now
+  just the pre-resize starting value. If `widget.js` is blocked or `data-resize` misbehaves, the
+  panel sits at 700px and scrolls exactly as before — same symptom, different cause. Check
+  desktop and narrow viewports.
+- [ ] **Check the injected iframe's accessible name.** The old markup set
+  `title="Schedule an introductory call with Chase Dalton"` on the iframe; that iframe is now
+  Calendly's markup, so whatever `title` they set is what screen readers announce.
+- [ ] **The `.sched-note` fallback is now load-bearing.** With the JS embed, a blocked
+  `widget.js` leaves an empty div rather than a broken iframe — the "Calendar not loading?" line
+  and its direct calendly.com link are the only remaining path to booking. Do not trim that copy.
 - [ ] **The contact form still submits nowhere.** `onsubmit` calls `preventDefault()` and
   fires an `alert()` claiming someone will reach out; the data is discarded. This was survivable
   when it was the page's only CTA and nobody was driving traffic. It is worse now — the

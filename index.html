@@ -499,22 +499,20 @@ header {
 .panel-head { padding: 28px 32px 20px; }
 .panel-head p { margin: 0; font-size: 14.5px; color: var(--muted); }
 .sched-frame-pad { padding: 0 8px; }
-/* Calendly's plain-iframe embed — no widget.js, so this page keeps the no-external-JS rule.
-   The tradeoff is no auto-resize, so the height is ours to set. Calendly's documented floor
-   is 700px for a scrollbar-free desktop layout; the widget stacks below ~680px wide and
-   needs considerably more. Both numbers are from their docs, not measured — recheck against
-   the real event type. */
+/* Calendly's JS embed. The height here is only the starting value: widget.js sets an inline
+   height on this element once the booking page reports its real size, and an inline style
+   beats this rule. That is also why the old breakpoint-specific heights are gone — the
+   resize handles narrow viewports better than a hardcoded guess did.
+   overflow: hidden clips the injected iframe to the rounded corner; the iframe is Calendly's
+   markup, not ours, so the radius cannot go on it directly. */
 .sched-frame {
   display: block;
   width: 100%;
   min-width: 320px;
   height: 700px;
-  border: 0;
   border-radius: calc(var(--r-lg) - 8px);
+  overflow: hidden;
 }
-/* Single-column iframe width = viewport - 80, so it crosses Calendly's ~680px threshold at a
-   760px viewport — not 680px. Below that the widget stacks and needs the taller box. */
-@media (max-width: 760px) { .sched-frame { height: 1010px; } }
 .sched-note { padding: 16px 32px 24px; margin: 0; font-size: 12.5px; line-height: 1.7; color: var(--muted); }
 .sched-note a { font-weight: 700; color: var(--body); text-decoration: underline; }
 .sched-note a:hover { color: var(--primary); }
@@ -996,16 +994,17 @@ body.seo-map-on .seo-legend {
             where you are and what questions you are facing.</p>
           </div>
           <div class="sched-frame-pad">
-            <!-- The firm's real event type: cdalton-chasewm/30min. Keep the query string — the
-                 three color params map Calendly onto this page's black-and-white palette.
-                 hide_gdpr_banner is included but may be ignored; Calendly documents
-                 banner-hiding as a JS-embed feature, so confirm it against the live embed.
-                 Do NOT add a `month=` param: it pins the calendar to a fixed month instead of
-                 opening on the current one. -->
-            <iframe class="sched-frame"
-                    title="Schedule an introductory call with Chase Dalton"
-                    loading="lazy"
-                    src="https://calendly.com/cdalton-chasewm/30min?hide_gdpr_banner=1&amp;background_color=ffffff&amp;text_color=3a3a3a&amp;primary_color=111111"></iframe>
+            <!-- Calendly's JS inline embed. widget.js injects the iframe into this div and,
+                 because of data-resize, sizes the div to the booking page's real content —
+                 which is the whole reason for the dependency. The height below is only the
+                 pre-resize starting value.
+                 The firm's real event type is cdalton-chasewm/30min. Keep the query string:
+                 the three color params map Calendly onto this page's black-and-white palette.
+                 Do NOT add a `month=` param — it pins the calendar to a fixed month instead
+                 of opening on the current one. -->
+            <div class="calendly-inline-widget sched-frame"
+                 data-url="https://calendly.com/cdalton-chasewm/30min?hide_gdpr_banner=1&amp;background_color=ffffff&amp;text_color=3a3a3a&amp;primary_color=111111"
+                 data-resize="true"></div>
           </div>
           <p class="sched-note">Calendar not loading? Some ad blockers stop it. Book at
           <a href="https://calendly.com/cdalton-chasewm/30min" rel="noopener">calendly.com</a>
@@ -1095,7 +1094,10 @@ body.seo-map-on .seo-legend {
 </footer>
 
 <!-- Calendly inline widget loader. This is the page's only non-font external dependency and
-     the one place it departs from the self-contained-single-file convention. -->
+     the one place it departs from the self-contained-single-file convention — deliberately,
+     as of 2026-08-11, to get data-resize auto-sizing. It is now load-bearing: without it the
+     #schedule panel renders an empty div, and the ad-blocker fallback line in .sched-note is
+     the only remaining path to booking. Do not remove it as dead weight. -->
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
 <script>

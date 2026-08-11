@@ -24,7 +24,7 @@ There is **no build system, no dependencies, no tests, no framework**. Each file
 
 ## Conventions each concept follows
 
-- Single file, no external CSS/JS except Google Fonts. Keep it that way — a concept must render standalone. `index.html`'s Calendly embed is a plain `<iframe>` precisely to hold this line; do **not** "upgrade" it to Calendly's `widget.js` without deciding to give the rule up. What that costs is listed in `docs/site-todo.md`.
+- Single file, no external CSS/JS except Google Fonts. Keep it that way — a concept must render standalone. **`index.html` is now the one exception**: on 2026-08-11 its Calendly embed was moved from a plain `<iframe>` to Calendly's `widget.js` JS embed, giving the rule up on purpose. The reason was auto-sizing — a cross-origin iframe cannot size itself, so its height was a hardcoded guess at someone else's layout that scrolled on the real event type and would have needed re-tuning every time the event's copy changed. `data-resize="true"` on the `.calendly-inline-widget` div is what actually does the resizing; `widget.js` alone does not. The rule still holds everywhere else, `about.html` included.
 - CSS custom properties in `:root` define the palette and font stack; the palette encodes the style's intent (e.g. neo-modernist uses one `--signal` accent color against a monochrome field). Change design tokens there, not inline.
 - A top HTML comment states the design concept; the palette comment often names the single accent color deliberately.
 - The two black-and-white concepts must stay strictly monochrome — all emphasis comes from scale/contrast/light, not hue.
