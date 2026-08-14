@@ -1,4 +1,4 @@
-# Chase Wealth Management — https://www.chasewealthmanagement.com/
+# Chase Wealth Management — https://vandyssoftware.github.io/chase-wealth/
 
 # No Disallow rules: the deploy workflow (.github/workflows/pages.yml) publishes an explicit
 # allowlist, so the only files that exist on the server are ones meant to be crawled. There
@@ -31,4 +31,4 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://www.chasewealthmanagement.com/sitemap.xml
+Sitemap: https://vandyssoftware.github.io/chase-wealth/sitemap.xml

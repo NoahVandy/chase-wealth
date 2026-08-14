@@ -16,13 +16,10 @@
 <!-- 150 chars, down from 234. Google truncates around 150-160, so the old one lost its second
      half — which is where the services were. -->
 <meta name="description" content="A fee-only fiduciary financial planning firm in Kansas City, Missouri. Investments, taxes, estate, insurance, and business planning in one written plan.">
-<!-- TODO — NOW BLOCKING, not cosmetic. As of 2026-08-11 www.chasewealthmanagement.com
-     301-redirects to raymondjames.com/chaserj, Chase's former firm. So this canonical points at
-     a URL that redirects off-domain, which tells Google the canonical version of this page lives
-     on Raymond James' site. The og: URLs below therefore use the address that actually serves
-     the site. When the domain cuts over, change all of it together: this canonical, the og:url
-     and og:image absolutes, and every schema @id and URL. -->
-<link rel="canonical" href="https://www.chasewealthmanagement.com/">
+<!-- Canonical and the schema @id/url values below all point at the github.io address that
+     actually serves the site. If a dedicated domain is later wired up to this site, repoint
+     the canonical, the og:/twitter absolutes, and every schema @id and URL together. -->
+<link rel="canonical" href="https://vandyssoftware.github.io/chase-wealth/">
 
 <!-- Open Graph / Twitter — the link preview in iMessage, Slack, WhatsApp, etc.
      Before these existed, scrapers guessed and surfaced Chase's headshot from the Person
@@ -68,10 +65,10 @@
   "@graph": [
     {
       "@type": "FinancialService",
-      "@id": "https://www.chasewealthmanagement.com/#firm",
+      "@id": "https://vandyssoftware.github.io/chase-wealth/#firm",
       "name": "Chase Wealth Management",
       "description": "Fee-only fiduciary wealth management and financial planning firm in Kansas City, Missouri.",
-      "url": "https://www.chasewealthmanagement.com/",
+      "url": "https://vandyssoftware.github.io/chase-wealth/",
       "telephone": "+1-816-588-4681",
       "address": {
         "@type": "PostalAddress",
@@ -83,8 +80,8 @@
       },
       "areaServed": { "@type": "AdministrativeArea", "name": "Kansas City metropolitan area" },
       "feesAndCommissionsSpecification": "Fee-only. One annual advisory fee charged as a percentage of assets under management: 1.00% on $0 to $1,000,000; 0.90% on $1,000,001 to $2,000,000; 0.80% on $2,000,001 to $3,000,000; 0.70% on $3,000,001 to $4,000,000; 0.60% on $4,000,001 and above. No commissions and no product sales.",
-      "founder": { "@id": "https://www.chasewealthmanagement.com/about.html#chase-dalton" },
-      "employee": { "@id": "https://www.chasewealthmanagement.com/about.html#chase-dalton" },
+      "founder": { "@id": "https://vandyssoftware.github.io/chase-wealth/about.html#chase-dalton" },
+      "employee": { "@id": "https://vandyssoftware.github.io/chase-wealth/about.html#chase-dalton" },
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
         "name": "Services",
@@ -100,11 +97,11 @@
     },
     {
       "@type": "Person",
-      "@id": "https://www.chasewealthmanagement.com/about.html#chase-dalton",
+      "@id": "https://vandyssoftware.github.io/chase-wealth/about.html#chase-dalton",
       "name": "Chase Dalton",
       "jobTitle": "Owner and Advisor",
-      "image": "https://www.chasewealthmanagement.com/assets/chase-dalton-headshot.jpg",
-      "worksFor": { "@id": "https://www.chasewealthmanagement.com/#firm" },
+      "image": "https://vandyssoftware.github.io/chase-wealth/assets/chase-dalton-headshot.jpg",
+      "worksFor": { "@id": "https://vandyssoftware.github.io/chase-wealth/#firm" },
       "alumniOf": [
         { "@type": "CollegeOrUniversity", "name": "University of Missouri–Kansas City" },
         { "@type": "CollegeOrUniversity", "name": "Pittsburg State University" }
