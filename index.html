@@ -60,7 +60,7 @@
 <link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <script type="application/ld+json">
 {
@@ -144,6 +144,7 @@
   --on-primary: #FFFFFF;
   --outline: #E2E2E2;
   --sans: 'Manrope', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --display: 'Fraunces', Georgia, 'Times New Roman', serif;
   --e1: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.08);
   --e2: 0 2px 6px rgba(0, 0, 0, 0.08), 0 6px 16px rgba(0, 0, 0, 0.08);
   --e3: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
@@ -240,6 +241,41 @@ header {
    margins together or the grouping flips. */
 .hero h1 { font-size: clamp(36px, 5.2vw, 58px); font-weight: 800; margin: 22px 0 30px; }
 .hero h1 .hl { color: var(--primary); }
+/* Hero headline treatment — the keyword line sits on top, then the approach phrase drops onto two
+   lines that fly in one after another, and each of those two gets an underline drawn beneath it in
+   turn (purpose-driven, first, then process-built). Only the approach lines are underlined. Each
+   line is display:table so it shrinks to its text width — that keeps the rule the width of the
+   words, not the whole column — and the underlined lines carry a little padding/margin so the rule
+   sits clearly below the text with air before the next line. The h1 keeps .reveal so the observer
+   toggles .in, but its own fade is neutralized so only the lines animate. Dials: the two fly-in
+   delays and the two underline delays. */
+.hero h1.reveal { opacity: 1; transform: none; transition: none; }
+
+.hero h1 .line {
+  display: table; position: relative;
+  opacity: 0; transform: translateY(16px);
+  transition: opacity 0.6s cubic-bezier(.2,.7,.3,1), transform 0.6s cubic-bezier(.2,.7,.3,1);
+}
+.hero h1.in .line { opacity: 1; transform: none; }
+.hero h1.in .l2 { transition-delay: 0.20s; }
+.hero h1.in .l3 { transition-delay: 0.40s; }
+
+/* The two approach lines each get an underline below the text; drawn l2 then l3. */
+.hero h1 .l2, .hero h1 .l3 {
+  padding-bottom: 0.12em; margin-bottom: 0.16em;
+  /* Fraunces on the approach lines — a crafted, high-contrast serif against Manrope's geometry. The
+     h1's -0.02em tracking crowds a serif, so reset to normal. Italic and the WONK/SOFT axes are
+     available for extra character (see dials). */
+  font-family: var(--display); letter-spacing: 0; font-weight: 800;
+}
+.hero h1 .l2::after, .hero h1 .l3::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 3px; background: currentColor;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.5s cubic-bezier(.2,.7,.3,1);
+}
+.hero h1.in .l2::after { transform: scaleX(1); transition-delay: 0.80s; }
+.hero h1.in .l3::after { transform: scaleX(1); transition-delay: 1.10s; }
 .hero .hero-sub {
   font-size: clamp(19px, 2.1vw, 23px); font-weight: 800;
   line-height: 1.25; margin: 0 0 8px; max-width: 26em;
@@ -642,6 +678,10 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
   .reveal { opacity: 1; transform: none; }
+  /* The animated headline parts default to hidden/collapsed; force their resting state so
+     reduced-motion users get the full headline and its underline with no motion. */
+  .hero h1 .line { opacity: 1; transform: none; }
+  .hero h1 .l2::after, .hero h1 .l3::after { transform: scaleX(1); }
   /* Marquee stops and becomes a static, horizontally scrollable strip. */
   .strip { overflow-x: auto; }
   .strip .track { animation: none; }
@@ -676,17 +716,20 @@ footer .legal { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(-
              leaving it here too would have made the two read as a stutter. Pill keeps the local
              signal only. -->
         <span class="label reveal">Kansas City, MO</span>
-        <!-- Keyword-bearing first line, process language in the highlight. Per Chase,
-             2026-08-11: he wanted the hero to sound like his own standard rather than a category
-             label, and "one disciplined plan" is his phrasing — about.html has "one disciplined
-             and intentional plan."
-             "Fiduciary" left the H1 to make room and is NOT lost: it is in the meta description,
-             in the trust row immediately below, and in the schema's FinancialService description.
-             (It was also in the <title> until 2026-08-11, when that had to come down from 81 to
-             57 characters to stop Google truncating it.) The primary keyword phrase "fee-only
-             wealth management" is still here. Do not stack the dropped adjective back on — four
-             adjectives ahead of the noun reads as keyword stuffing to both people and crawlers. -->
-        <h1 class="reveal">Fee-only wealth management,<br><span class="hl">one disciplined plan</span></h1>
+        <!-- Keyword-bearing first line, Chase's approach phrase in the highlight. "Fee-only wealth
+             management" leads the H1 (strongest on-page heading signal); "purpose-driven,
+             process-built" is Chase's own approach line, per his message relayed 2026-08-13,
+             replacing the earlier "one disciplined plan".
+             "Fiduciary" is not in the H1 but isn't lost: it's in the meta description, the trust row
+             below, and the schema's FinancialService description. (It was in the <title> until
+             2026-08-11, when that came down from 81 to 57 characters to stop Google truncating it.)
+             Do not stack more adjectives ahead of "wealth management" — four deep reads as keyword
+             stuffing to both people and crawlers. -->
+        <h1 class="reveal">
+          <span class="line l1">Fee-only wealth management,</span>
+          <span class="line l2 hl">purpose-driven,</span>
+          <span class="line l3 hl">process-built</span>
+        </h1>
         <!-- Chase's own standard, derived from about.html: "success is defined by seeing clients
              become more educated, more confident, and more intentional." Makes comprehension the
              measure rather than performance, which is why it asserts nothing the advertising rules
